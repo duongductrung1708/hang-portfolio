@@ -31,19 +31,21 @@ export function Scene1() {
 
   return (
     <section className={`${s.sc} ${s.scFullscreen}`}>
-      <img className={s.sceneImg} src={scene1Img} alt="Scene 1" />
-      <div className={s.sceneHud} aria-label={`Current time ${timeLabel}`}>
-        <div className={s.sceneClock}>{timeLabel}</div>
-        <div className={s.sceneClockSub}>tiết dạy: đang diễn ra</div>
-      </div>
+      <div className={s.sceneArt}>
+        <img className={s.sceneImg} src={scene1Img} alt="Scene 1" />
+        <div className={s.sceneHud} aria-label={`Current time ${timeLabel}`}>
+          <div className={s.sceneClock}>{timeLabel}</div>
+          <div className={s.sceneClockSub}>tiết dạy: đang diễn ra</div>
+        </div>
 
-      <div className={s.sceneNote} role="note" aria-label="Ghi chú công việc">
-        <ul className={s.sceneNoteList}>
-          <li>Soạn giáo án</li>
-          <li>Chấm bài</li>
-          <li>Chuẩn bị đồ dùng</li>
-          <li>Nhập điểm</li>
-        </ul>
+        <div className={s.sceneNote} role="note" aria-label="Ghi chú công việc">
+          <ul className={s.sceneNoteList}>
+            <li>Soạn giáo án</li>
+            <li>Chấm bài</li>
+            <li>Chuẩn bị đồ dùng</li>
+            <li>Nhập điểm</li>
+          </ul>
+        </div>
       </div>
     </section>
   );

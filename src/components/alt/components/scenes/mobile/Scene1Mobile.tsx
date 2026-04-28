@@ -31,10 +31,12 @@ export function Scene1Mobile() {
 
   return (
     <section className={`${s.sc} ${s.scFullscreen}`}>
-      <img className={s.sceneImg} src={scene1Img} alt="Scene 1" />
-      <div className={`${s.sceneHud} ${s.sceneHudMobile}`} aria-label={`Current time ${timeLabel}`}>
-        <div className={s.sceneClock}>{timeLabel}</div>
-        <div className={s.sceneClockSub}>tiết dạy: đang diễn ra</div>
+      <div className={s.sceneArt}>
+        <img className={s.sceneImg} src={scene1Img} alt="Scene 1" />
+        <div className={`${s.sceneHud} ${s.sceneHudMobile}`} aria-label={`Current time ${timeLabel}`}>
+          <div className={s.sceneClock}>{timeLabel}</div>
+          <div className={s.sceneClockSub}>tiết dạy: đang diễn ra</div>
+        </div>
       </div>
     </section>
   );
