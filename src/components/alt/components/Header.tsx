@@ -13,7 +13,9 @@ interface Props {
 export function Header({ showLogo, showLeft, playing, onToggleMusic, logoRef, logoFont }: Props) {
   return (
     <header className={s.hdr}>
-      <div className={`${s.hdrLeft} ${showLeft ? s.on : ""}`}>(portfolio đời thường của Hằng)</div>
+      <div className={`${s.hdrLeft} ${showLeft ? s.on : ""}`}>
+        (portfolio đời thường của Hàn Hằng)
+      </div>
       <div
         ref={logoRef}
         className={`${s.hdrLogo} ${showLogo ? s.on : ""}`}

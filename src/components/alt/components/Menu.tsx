@@ -28,8 +28,8 @@ export function Menu({ open, onClose, onGo, onAbout }: Props) {
         <button className={s.mclose} onClick={onClose} aria-label="Đóng menu">
           ×
         </button>
-        <div className={s.mname}>Duong Duc Trung</div>
-        <div className={s.memail}>trungyna1708@gmail.com</div>
+        <div className={s.mname}>Nguyễn Thị Hằng</div>
+        <div className={s.memail}>hanhang0602@gmail.com</div>
         <hr className={s.mdash} />
         <div className={s.mrow}>
           <span>Lớp: 4A</span>

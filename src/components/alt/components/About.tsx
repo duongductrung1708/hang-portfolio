@@ -7,11 +7,11 @@ export function About({ open, onClose }: { open: boolean; onClose: () => void })
         ← BACK
       </button>
       <div className={s.amirror}>
-        <h2>about me?</h2>
+        <h2>Về mình?</h2>
         <p>
-          I'm Trung — a frontend developer based in Vietnam. I build interfaces at the intersection
-          of clean code, motion and quiet weirdness. I balance intuition with structure, chaos with
-          clarity, and I always order a flat white while debugging.
+          Mình là Hàn Hằng — một giáo viên ở Việt Nam. Mình thích ghi lại những khoảnh khắc đời
+          thường trong lớp học: từ soạn giáo án, lên lớp, chấm bài, đến những câu chuyện nhỏ của học
+          trò. Mình tin rằng sự kiên nhẫn, kỷ luật và một chút ấm áp mỗi ngày sẽ tạo nên khác biệt.
         </p>
         <a className={s.acta} href="mailto:trungyna1708@gmail.com" title="Say hi">
           ✉

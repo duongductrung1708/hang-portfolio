@@ -24,12 +24,12 @@ export const Intro = forwardRef<HTMLElement, Props>(function Intro(
           <div className={`${s.bigTitle} ${s.bigTitleUp}`} style={{ fontFamily: titleFont }}>
             ALt.
           </div>
-          <div className={s.bigSub}>(portfolio đời thường của giáo viên)</div>
+          <div className={s.bigSub}>(portfolio đời thường của Hàn Hằng)</div>
         </div>
 
         <div className={s.gather}>
           <div className={`${s.gline} ${s.line1} ${showLine1 ? s.show : ""}`}>
-            portfolio đời thường của Hằng
+            portfolio đời thường của Hàn Hằng
           </div>
           <div className={`${s.gline} ${s.line2} ${showLine2 ? s.show : ""}`}>
             cuộn xuống — bắt đầu một ngày đi dạy
