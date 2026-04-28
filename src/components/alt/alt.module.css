@@ -575,6 +575,7 @@
   overflow: hidden;
   background: transparent;
   height: 100vh;
+  height: 100dvh;
 }
 .hscroll.on {
   display: block;
@@ -606,6 +607,7 @@
 }
 .scFullscreen {
   height: 100vh;
+  height: 100dvh;
 }
 .sceneArt {
   position: relative;
@@ -632,10 +634,6 @@
 /* Scene 1 overlays (tuned for scene1.png) */
 .sc1Clock {
   position: absolute;
-  left: 23%;
-  top: 29%;
-  width: 15%;
-  height: 8.5%;
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -660,10 +658,6 @@
 }
 .sc1Todo {
   position: absolute;
-  left: 32%;
-  top: 63%;
-  width: 8%;
-  height: 15%;
   z-index: 2;
   padding: 6px 8px;
   color: var(--brown);
@@ -687,11 +681,6 @@
 /* Monitor screen overlay (tuned for scene1.png) */
 .monitorScreen {
   position: absolute;
-  /* percentages are relative to the full image */
-  left: 43%;
-  top: 30%;
-  width: 25%;
-  height: 34%;
   border-radius: 10px;
   overflow: hidden;
   z-index: 2;
@@ -1607,24 +1596,6 @@
   line-height: 1.35;
 }
 @media (max-width: 760px) {
-  .sc1Clock {
-    left: 8%;
-    top: 10.5%;
-    width: 28%;
-    height: 10%;
-  }
-  .sc1Todo {
-    left: 14%;
-    top: 58%;
-    width: 22%;
-    height: auto;
-  }
-  .monitorScreen {
-    left: 12%;
-    top: 14%;
-    width: 76%;
-    height: 30%;
-  }
   .storyShell {
     grid-template-columns: 1fr;
   }
@@ -1699,6 +1670,95 @@
   }
   .mobileOnly {
     display: block;
+  }
+
+  /*
+   * Mobile scrolling:
+   * Scrolling inside elements that are descendants of a transformed parent
+   * (the horizontal stage) can be unreliable on mobile browsers.
+   * So we scroll on .hscroll itself and let slides grow vertically.
+   */
+  .hscroll {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+  .hscroll {
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+  }
+  .hstage {
+    height: 100%;
+  }
+  .scSlide {
+    height: 100%;
+    overflow: hidden;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  .sc {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  /* Scene 1 needs a viewport-height canvas for its cover image */
+  .sc.scFullscreen {
+    height: 100vh;
+    height: 100dvh;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  /* Keep content clear of fixed header + bottom nav */
+  .sc {
+    padding-top: calc(clamp(56px, 7.2vw, 64px) + env(safe-area-inset-top, 0px) + 12px);
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  /* Scenes (mobile): remove box shadows */
+  .sceneSection :is(
+      .storyIntro,
+      .panelHeader,
+      .bioCard,
+      .footerScene,
+      .worldCard,
+      .albumCard,
+      .timelineCard,
+      .scrapLeft,
+      .scrapRight,
+      .scrapDot,
+      .scrapPaper,
+      .scrapSticker,
+      .toyWrap,
+      .toyCard,
+      .toyBadge,
+      .toyIcon,
+      .albumBook,
+      .albumSpine,
+      .albumCover,
+      .letterWrap,
+      .letterPaper,
+      .letterPin,
+      .letterStamp,
+      .skyWrap,
+      .skyWrap .footerScene
+    ) {
+    box-shadow: none !important;
+  }
+
+  /* Some scene elements use drop-shadow filters (not box-shadow) */
+  .sceneSection :is(.toySvg, .starSvg) {
+    filter: none !important;
   }
 }
 
