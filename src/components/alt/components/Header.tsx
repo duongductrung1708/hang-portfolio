@@ -14,14 +14,14 @@ export function Header({ showLogo, showLeft, playing, onToggleMusic, logoRef, lo
   return (
     <header className={s.hdr}>
       <div className={`${s.hdrLeft} ${showLeft ? s.on : ""}`}>
-        (portfolio đời thường của Hàn Hằng)
+        (một bảo bình gom nắng vào lòng)
       </div>
       <div
         ref={logoRef}
         className={`${s.hdrLogo} ${showLogo ? s.on : ""}`}
         style={logoFont ? { fontFamily: logoFont } : undefined}
       >
-        ALt.
+        H.H
       </div>
       <div className={s.hdrRight}>
         <span className={`${s.nowPlay} ${playing ? s.show : ""}`} aria-live="polite">

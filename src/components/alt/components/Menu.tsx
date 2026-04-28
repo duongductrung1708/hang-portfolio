@@ -8,12 +8,13 @@ interface Props {
 }
 
 const ITEMS: Array<{ label: string; go?: number; action?: "about" }> = [
-  { label: "ALt. /trang-chủ", go: 0 },
+  { label: "H.H /khởi-đầu", go: 0 },
   { label: "MÌNH LÀ AI?", action: "about" },
-  { label: "VÀO LỚP", go: 1 },
-  { label: "CHẤM BÀI", go: 2 },
-  { label: "KỸ NĂNG & KINH NGHIỆM", go: 4 },
-  { label: "LIÊN HỆ", go: 5 },
+  { label: "HÀNH TRÌNH LỚN LÊN", go: 1 },
+  { label: "MY LITTLE WORLD", go: 2 },
+  { label: "DIGITAL ALBUM", go: 3 },
+  { label: "LỜI TỰ SỰ", go: 4 },
+  { label: "LỜI KẾT", go: 5 },
 ];
 
 export function Menu({ open, onClose, onGo, onAbout }: Props) {
@@ -32,8 +33,8 @@ export function Menu({ open, onClose, onGo, onAbout }: Props) {
         <div className={s.memail}>hanhang0602@gmail.com</div>
         <hr className={s.mdash} />
         <div className={s.mrow}>
-          <span>Lớp: 4A</span>
-          <span>Tiết: 1</span>
+          <span>Bảo Bình ♒</span>
+          <span>Vibrant & Dreamy</span>
         </div>
         <hr className={s.meqdash} />
         {ITEMS.map((it) => (
@@ -54,10 +55,10 @@ export function Menu({ open, onClose, onGo, onAbout }: Props) {
         <div className={s.mfoot}>
           LÀM TẠI <u>VIỆT NAM</u>
           <br />
-          ALt. 2026
+          Hankang 2026
           <br />
           <br />
-          CẢM ƠN :)
+          một chút nắng cho hôm nay
         </div>
         <div className={s.mham}>═</div>
       </div>

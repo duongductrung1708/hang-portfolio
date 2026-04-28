@@ -20,7 +20,7 @@ export function Nav({ scene, total, onPrev, onNext, onMenu, onInfo, onDot, visib
         {scene + 1}/{total} · {meta?.name ?? ""}
       </span>
 
-      <button className={s.nb} onClick={onInfo} aria-label="About" data-nb>
+      <button className={s.nb} onClick={onInfo} aria-label="Về mình" data-nb>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
           <circle cx="12" cy="12" r="9" />
           <line x1="12" y1="11" x2="12" y2="17" />
@@ -44,7 +44,7 @@ export function Nav({ scene, total, onPrev, onNext, onMenu, onInfo, onDot, visib
       <button
         className={s.nb}
         onClick={onPrev}
-        aria-label="Previous"
+        aria-label="Cảnh trước"
         data-nb
         style={{ opacity: scene === 0 ? 0.35 : undefined }}
       >
@@ -65,7 +65,7 @@ export function Nav({ scene, total, onPrev, onNext, onMenu, onInfo, onDot, visib
             key={i}
             className={`${s.nd} ${i === scene ? s.A : ""}`}
             onClick={() => onDot(i)}
-            aria-label={`Scene ${i + 1}`}
+            aria-label={`Cảnh ${i + 1}`}
             data-nd
           />
         ))}
@@ -73,7 +73,7 @@ export function Nav({ scene, total, onPrev, onNext, onMenu, onInfo, onDot, visib
       <button
         className={s.nb}
         onClick={onNext}
-        aria-label="Next"
+        aria-label="Cảnh sau"
         data-nb
         style={{ opacity: scene === total - 1 ? 0.35 : undefined }}
       >

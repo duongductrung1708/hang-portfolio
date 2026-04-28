@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
 import s from "../../alt.module.css";
 import scene1Img from "@/assets/scene1.png";
+import { HERO_SUBTITLE } from "../../data";
+import { useEffect, useMemo, useState } from "react";
 
 /* ============================================================
- * Scene 1 — HELLO WORLD: code editor + terminal on a desk
+ * Scene 1 — HERO: on the monitor
  * ============================================================ */
 export function Scene1() {
   const [{ hh, mm, ss }, setT] = useState(() => ({
@@ -31,20 +32,28 @@ export function Scene1() {
 
   return (
     <section className={`${s.sc} ${s.scFullscreen}`}>
-      <div className={s.sceneArt}>
-        <img className={s.sceneImg} src={scene1Img} alt="Scene 1" />
-        <div className={s.sceneHud} aria-label={`Current time ${timeLabel}`}>
-          <div className={s.sceneClock}>{timeLabel}</div>
-          <div className={s.sceneClockSub}>tiết dạy: đang diễn ra</div>
+      <div className={s.sc1Wrap}>
+        <img className={s.sc1Img} src={scene1Img} alt="Bàn làm việc" />
+
+        <div className={s.sc1Clock} aria-label={`Đồng hồ ${timeLabel}`}>
+          <div className={s.sc1ClockTime}>{timeLabel}</div>
+          <div className={s.sc1ClockSub}>uptime: ∞</div>
         </div>
 
-        <div className={s.sceneNote} role="note" aria-label="Ghi chú công việc">
-          <ul className={s.sceneNoteList}>
+        <div className={s.sc1Todo} role="note" aria-label="Ghi chú">
+          <ul className={s.sc1TodoList}>
             <li>Soạn giáo án</li>
             <li>Chấm bài</li>
-            <li>Chuẩn bị đồ dùng</li>
-            <li>Nhập điểm</li>
+            <li>Nước dừa</li>
           </ul>
+        </div>
+
+        <div className={s.monitorScreen} aria-label="Nội dung trên màn hình máy tính">
+          <div className={s.monitorInner}>
+            <p className={s.monitorEyebrow}>The Beginning of Light</p>
+            <h1 className={s.monitorTitle}>Hàn Hằng</h1>
+            <p className={s.monitorSubtitle}>{HERO_SUBTITLE}</p>
+          </div>
         </div>
       </div>
     </section>

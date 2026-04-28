@@ -601,6 +601,369 @@
   max-height: 100vh;
   aspect-ratio: 16 / 9;
 }
+.sc1Wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.sc1Img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+/* Scene 1 overlays (tuned for scene1.png) */
+.sc1Clock {
+  position: absolute;
+  left: 23%;
+  top: 29%;
+  width: 15%;
+  height: 8.5%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--brown);
+  text-align: center;
+  pointer-events: none;
+}
+.sc1ClockTime {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  font-size: clamp(0.85rem, 1.2vw, 1.15rem);
+  line-height: 1;
+}
+.sc1ClockSub {
+  margin-top: 2px;
+  font-size: clamp(0.45rem, 0.65vw, 0.62rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.sc1Todo {
+  position: absolute;
+  left: 32%;
+  top: 63%;
+  width: 9.6%;
+  height: 15%;
+  z-index: 2;
+  padding: 6px 8px;
+  color: var(--brown);
+  pointer-events: none;
+}
+.sc1TodoTitle {
+  font-size: clamp(0.5rem, 0.75vw, 0.64rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.sc1TodoList {
+  margin: 6px 0 0;
+  padding-left: 14px;
+  font-size: clamp(0.5rem, 0.7vw, 0.62rem);
+  line-height: 1.25;
+}
+.sc1TodoList li {
+  margin: 2px 0;
+}
+/* Monitor screen overlay (tuned for scene1.png) */
+.monitorScreen {
+  position: absolute;
+  /* percentages are relative to the full image */
+  left: 43%;
+  top: 30%;
+  width: 25%;
+  height: 34%;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 2;
+}
+.monitorInner {
+  height: 100%;
+  padding: clamp(10px, 1.4vw, 16px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+  color: var(--brown);
+}
+.monitorEyebrow {
+  margin: 0;
+  font-size: clamp(0.55rem, 0.95vw, 0.78rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+.monitorTitle {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 2.2vw, 1.95rem);
+  line-height: 1.05;
+}
+.monitorSubtitle {
+  margin: 0;
+  font-size: clamp(0.65rem, 1.05vw, 0.92rem);
+  line-height: 1.55;
+  opacity: 0.9;
+}
+.storyScene,
+.panelScene {
+  padding: clamp(24px, 4vw, 56px);
+}
+.timelineScene {
+  position: relative;
+  z-index: 6; /* above drifting cloud layer */
+}
+.storyShell,
+.panelHeader,
+.bioCard,
+.footerScene {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+.storyShell {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: stretch;
+}
+.storyIntro,
+.panelHeader,
+.bioCard,
+.footerScene,
+.worldCard,
+.albumCard,
+.timelineCard {
+  background: rgba(255, 252, 249, 0.78);
+  border: 1px solid rgba(74, 21, 21, 0.1);
+  box-shadow: 0 20px 60px rgba(120, 86, 86, 0.12);
+  backdrop-filter: blur(10px);
+}
+.storyIntro,
+.panelHeader {
+  border-radius: 32px;
+  padding: 28px;
+}
+.storyIntro {
+  background: rgba(255, 252, 249, 0.92);
+}
+.storyText {
+  max-width: 42ch;
+}
+.storyTitle {
+  margin: 10px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+.storyText {
+  margin: 16px 0 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  opacity: 0.86;
+}
+.timelineScroll {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-height: 72vh;
+  overflow-y: auto;
+  padding-right: 8px;
+  padding-left: 6px;
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+.timelineScroll::before {
+  content: "";
+  position: absolute;
+  left: 33px; /* centered under 54px dot */
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to bottom,
+    rgba(224, 120, 120, 0.08),
+    rgba(224, 120, 120, 0.35) 35%,
+    rgba(224, 120, 120, 0.12)
+  );
+  pointer-events: none;
+}
+.timelineScroll::-webkit-scrollbar {
+  width: 10px;
+}
+.timelineScroll::-webkit-scrollbar-thumb {
+  background: rgba(74, 21, 21, 0.18);
+  border-radius: 999px;
+  border: 2px solid rgba(255, 252, 249, 0.6);
+}
+.timelineScroll::-webkit-scrollbar-track {
+  background: rgba(255, 252, 249, 0.35);
+  border-radius: 999px;
+}
+.timelineCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 16px;
+  border-radius: 28px;
+  padding: 22px;
+  scroll-snap-align: start;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+  background: rgba(255, 252, 249, 0.92);
+}
+.timelineCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 20% 20%, rgba(224, 120, 120, 0.12), transparent 40%);
+  opacity: 0.38;
+  pointer-events: none;
+}
+.timelineCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 26px 72px rgba(120, 86, 86, 0.18);
+  border-color: rgba(224, 120, 120, 0.22);
+}
+.timelineDot {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(224, 120, 120, 0.16);
+  border: 1px solid rgba(224, 120, 120, 0.28);
+  box-shadow: 0 12px 24px rgba(224, 120, 120, 0.12);
+  font-size: 1.02rem;
+  font-weight: 600;
+  z-index: 1;
+}
+.timelinePeriod {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.68;
+}
+ 
+.timelineBody p {
+  margin: 10px 0 0;
+}
+.timelineBody p:last-of-type {
+  margin-bottom: 0;
+}
+.timelineBody h3,
+.worldCard h3,
+.albumCard h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+.timelineBody p,
+.worldCard p,
+.albumCard p,
+.bioCard p,
+.footerMessage {
+  line-height: 1.75;
+}
+.timelineVisual {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(224, 120, 120, 0.12);
+  border: 1px solid rgba(224, 120, 120, 0.18);
+  font-size: 0.8rem;
+}
+.worldGrid,
+.albumGrid {
+  width: min(1180px, 100%);
+  margin: 24px auto 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.worldCard,
+.albumCard {
+  border-radius: 30px;
+  padding: 24px;
+}
+.worldIndex,
+.albumTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(224, 120, 120, 0.14);
+  margin-bottom: 16px;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.worldSubtitle {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  opacity: 0.75;
+}
+.albumMoments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.albumMoments span {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 0.82rem;
+}
+.panelHeaderNarrow {
+  max-width: 900px;
+}
+.bioCard {
+  max-width: 900px;
+  margin-top: 26px;
+  border-radius: 34px;
+  padding: 28px;
+}
+.bioCard p {
+  margin: 0 0 16px;
+}
+.bioCard p:last-child {
+  margin-bottom: 0;
+}
+.footerScene {
+  min-height: 72vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-radius: 38px;
+  padding: 40px 28px;
+}
+.footerMessage {
+  max-width: 34ch;
+  margin: 16px auto 0;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+}
+.footerMeta {
+  margin-top: 18px;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
 .sc svg {
   width: min(92vw, 1100px);
   height: auto;
@@ -679,6 +1042,38 @@
   line-height: 1.35;
 }
 @media (max-width: 760px) {
+  .sc1Clock {
+    left: 8%;
+    top: 10.5%;
+    width: 28%;
+    height: 10%;
+  }
+  .sc1Todo {
+    left: 14%;
+    top: 58%;
+    width: 22%;
+    height: auto;
+  }
+  .monitorScreen {
+    left: 12%;
+    top: 14%;
+    width: 76%;
+    height: 30%;
+  }
+  .storyShell {
+    grid-template-columns: 1fr;
+  }
+  .timelineScroll {
+    max-height: 58vh;
+  }
+  .worldGrid,
+  .albumGrid {
+    grid-template-columns: 1fr;
+  }
+  .panelScene,
+  .storyScene {
+    padding: 18px;
+  }
   .sceneArt {
     width: 100vw;
   }
