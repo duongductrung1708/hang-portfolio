@@ -74,8 +74,8 @@ export function Scene1() {
     const { scale, offsetX, offsetY, natW, natH } = cover;
 
     // Anchors defined as fractions of the original image (scene1.png)
-    const clock = { x: 0.23, y: 0.29, w: 0.15, h: 0.085 };
-    const todo = { x: 0.32, y: 0.63, w: 0.08, h: 0.15 };
+    const clock = { x: 0.245, y: 0.29, w: 0.15, h: 0.085 };
+    const todo = { x: 0.335, y: 0.63, w: 0.08, h: 0.15 };
     const monitor = { x: 0.43, y: 0.3, w: 0.25, h: 0.34 };
 
     const rect = (a: { x: number; y: number; w: number; h: number }) => {

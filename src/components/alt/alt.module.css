@@ -1679,15 +1679,9 @@
    * So we scroll on .hscroll itself and let slides grow vertically.
    */
   .hscroll {
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-  }
-  .hscroll {
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: none;
+    overscroll-behavior: auto;
   }
   .hstage {
     height: 100%;
@@ -1703,7 +1697,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
+    overscroll-behavior-y: auto;
     align-items: stretch;
     justify-content: flex-start;
   }
