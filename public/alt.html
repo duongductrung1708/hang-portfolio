@@ -1,0 +1,2237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ALt. — a café-shaped portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Caveat:wght@400;700&family=Abril+Fatface&family=DM+Serif+Display&family=Major+Mono+Display&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #ede8df;
+        --brown: #4a1515;
+        --brown-dark: #3a0e0e;
+        --cream: #f7f2ea;
+        --accent: #e07878;
+        --mono: "Courier Prime", "Courier New", monospace;
+        --serif: "Special Elite", serif;
+      }
+      html,
+      body {
+        width: 100%;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--brown);
+        font-family: var(--mono);
+        overflow-x: hidden;
+      }
+      body {
+        cursor: none;
+      }
+      a {
+        color: inherit;
+      }
+      button {
+        font-family: inherit;
+      }
+
+      /* ============== CUSTOM CURSOR ============== */
+      #CUR {
+        position: fixed;
+        width: 14px;
+        height: 14px;
+        border: 1.8px solid var(--brown);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 99999;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.18s ease,
+          height 0.18s ease,
+          background-color 0.18s ease,
+          border-color 0.18s ease,
+          border-width 0.18s ease;
+        mix-blend-mode: normal;
+      }
+      #CUR.dot::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: var(--brown);
+      }
+      /* Hover state - over interactive */
+      .HOVERING #CUR {
+        width: 32px;
+        height: 32px;
+        background: rgba(74, 21, 21, 0.15);
+        border-color: var(--brown);
+      }
+      /* Click state */
+      .CLICKING #CUR {
+        width: 22px;
+        height: 22px;
+        background: rgba(74, 21, 21, 0.3);
+      }
+      /* Dark mode (over brown surfaces) */
+      body.DARKCUR #CUR {
+        border-color: var(--cream);
+      }
+      body.DARKCUR #CUR.dot::after {
+        background: var(--cream);
+      }
+      body.DARKCUR.HOVERING #CUR {
+        background: rgba(247, 242, 234, 0.18);
+        border-color: var(--cream);
+      }
+      /* Hide cursor when hovering input/text */
+      .TEXTCUR #CUR {
+        opacity: 0;
+      }
+
+      /* ============== LOADING ============== */
+      #LOAD {
+        position: fixed;
+        inset: 0;
+        background: var(--brown);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99998;
+        transition: opacity 0.7s;
+      }
+      #LOAD.out {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #LOAD span {
+        font-family: var(--mono);
+        font-size: 1.05rem;
+        color: rgba(247, 242, 234, 0.85);
+        letter-spacing: 0.05em;
+      }
+
+      /* ============== HEADER ============== */
+      #HDR {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        z-index: 1000;
+        pointer-events: none;
+      }
+      #HDR-LEFT {
+        font-size: 0.78rem;
+        font-style: italic;
+        letter-spacing: 0.02em;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition:
+          opacity 0.55s ease,
+          transform 0.55s ease;
+        pointer-events: all;
+        color: var(--brown);
+      }
+      #HDR-LEFT.on {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      #HDR-LOGO {
+        font-family: var(--serif);
+        font-size: 1.7rem;
+        letter-spacing: 0.04em;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition:
+          opacity 0.55s ease,
+          transform 0.55s ease;
+        pointer-events: all;
+        color: var(--brown);
+      }
+      #HDR-LOGO.on {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* Hide header chrome entirely while loader visible */
+      body.loading #HDR,
+      body.loading #WEBBY {
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      #HDR-RIGHT {
+        pointer-events: all;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* Music button */
+      #MUSIC-BTN {
+        position: relative;
+        width: 38px;
+        height: 38px;
+        border: 1.5px solid var(--brown);
+        background: var(--cream);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: none;
+        border-radius: 6px;
+        transition:
+          background 0.25s,
+          color 0.25s,
+          transform 0.2s;
+        overflow: hidden;
+      }
+      #MUSIC-BTN:hover {
+        background: var(--brown);
+        color: var(--cream);
+        transform: scale(1.05);
+      }
+      #MUSIC-BTN .ic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 14px;
+        height: 14px;
+      }
+      #MUSIC-BTN .play-tri {
+        width: 0;
+        height: 0;
+        border-left: 9px solid currentColor;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        margin-left: 2px;
+      }
+      #MUSIC-BTN .pause {
+        display: flex;
+        gap: 3px;
+      }
+      #MUSIC-BTN .pause i {
+        display: block;
+        width: 3px;
+        height: 12px;
+        background: currentColor;
+      }
+      /* Equalizer bars when playing (replaces icon) */
+      #MUSIC-BTN.playing {
+        background: var(--brown);
+        color: var(--cream);
+      }
+      #MUSIC-BTN.playing .ic {
+        display: none;
+      }
+      #MUSIC-BTN .eq {
+        display: none;
+        align-items: flex-end;
+        gap: 2px;
+        height: 14px;
+      }
+      #MUSIC-BTN .eq i {
+        display: block;
+        width: 2.5px;
+        background: var(--cream);
+        border-radius: 1px;
+        animation: EQ 1s ease-in-out infinite;
+        transform-origin: bottom;
+      }
+      #MUSIC-BTN .eq i:nth-child(1) {
+        animation-delay: 0s;
+        height: 60%;
+      }
+      #MUSIC-BTN .eq i:nth-child(2) {
+        animation-delay: 0.18s;
+        height: 100%;
+      }
+      #MUSIC-BTN .eq i:nth-child(3) {
+        animation-delay: 0.36s;
+        height: 75%;
+      }
+      #MUSIC-BTN .eq i:nth-child(4) {
+        animation-delay: 0.54s;
+        height: 90%;
+      }
+      #MUSIC-BTN.playing .eq {
+        display: flex;
+      }
+      @keyframes EQ {
+        0%,
+        100% {
+          transform: scaleY(0.35);
+        }
+        50% {
+          transform: scaleY(1);
+        }
+      }
+
+      /* Now-playing label */
+      #NOWPLAY {
+        font-size: 0.66rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--brown);
+        opacity: 0;
+        max-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition:
+          opacity 0.35s,
+          max-width 0.4s ease;
+      }
+      #MUSIC-BTN.playing ~ #NOWPLAY,
+      #NOWPLAY.show {
+        opacity: 0.75;
+        max-width: 160px;
+      }
+
+      /* ============== WEBBY ============== */
+      #WEBBY {
+        position: fixed;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 500;
+        background: var(--cream);
+        border: 1.5px solid var(--brown);
+        border-right: none;
+        width: 36px;
+        padding: 14px 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        opacity: 0;
+        transition: opacity 0.5s;
+        border-radius: 6px 0 0 6px;
+      }
+      #WEBBY.on {
+        opacity: 1;
+      }
+      #WEBBY .w {
+        font-family: var(--serif);
+        font-size: 1rem;
+      }
+      #WEBBY .n {
+        font-size: 0.5rem;
+        letter-spacing: 0.18em;
+        writing-mode: vertical-rl;
+        text-transform: uppercase;
+        opacity: 0.7;
+        margin-top: 6px;
+      }
+
+      /* ============== INTRO ============== */
+      #INTRO {
+        position: relative;
+        height: 300vh;
+      }
+      #STICKY {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+      #BIG-WRAP {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        will-change: transform, opacity;
+      }
+      #BIG-TITLE {
+        font-family: var(--serif);
+        font-size: clamp(4.5rem, 18vw, 14rem);
+        letter-spacing: 0.04em;
+        line-height: 1;
+        color: var(--brown);
+        text-align: center;
+        white-space: nowrap;
+        transition: font-family 0.18s ease;
+      }
+      @media (min-width: 768px) and (max-width: 1199px) {
+        #BIG-TITLE {
+          font-size: clamp(6rem, 17vw, 12rem);
+        }
+      }
+      @media (min-width: 1200px) {
+        #BIG-TITLE {
+          font-size: clamp(8rem, 14vw, 13rem);
+        }
+      }
+      #BIG-SUB {
+        font-size: 0.9rem;
+        font-style: italic;
+        letter-spacing: 0.02em;
+        margin-top: 14px;
+        color: var(--brown);
+      }
+
+      #GATHER {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+        letter-spacing: 0.04em;
+        color: var(--brown);
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
+        align-items: center;
+      }
+      #GATHER .gline {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+        will-change: opacity, transform;
+      }
+      #GATHER .gline.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      #GATHER .line2.show {
+        opacity: 0.75;
+      }
+
+      .cloud {
+        position: absolute;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1s ease;
+        will-change: transform, opacity;
+      }
+      .cloud.in {
+        opacity: 0.85;
+      }
+      /* Continuous horizontal drift across viewport */
+      @keyframes DRIFT_R {
+        0% {
+          transform: translateX(-15vw);
+        }
+        100% {
+          transform: translateX(115vw);
+        }
+      }
+      @keyframes DRIFT_L {
+        0% {
+          transform: translateX(115vw);
+        }
+        100% {
+          transform: translateX(-25vw);
+        }
+      }
+      @keyframes BOB {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      .cd1 {
+        top: 14%;
+        left: 0;
+        animation: DRIFT_R 70s linear infinite;
+      }
+      .cd2 {
+        top: 70%;
+        left: 0;
+        animation: DRIFT_L 95s linear infinite;
+        animation-delay: -30s;
+      }
+      .cd3 {
+        top: 55%;
+        left: 0;
+        animation: DRIFT_R 85s linear infinite;
+        animation-delay: -55s;
+      }
+      .cd4 {
+        top: 28%;
+        left: 0;
+        animation: DRIFT_L 110s linear infinite;
+        animation-delay: -70s;
+      }
+      .cloud > svg {
+        animation: BOB 6s ease-in-out infinite;
+        display: block;
+      }
+      .cd2 > svg {
+        animation-duration: 8s;
+        animation-delay: -2s;
+      }
+      .cd3 > svg {
+        animation-duration: 7s;
+        animation-delay: -4s;
+      }
+      .cd4 > svg {
+        animation-duration: 9s;
+        animation-delay: -1s;
+      }
+
+      /* ============== H-SCROLL ============== */
+      #HSCROLL {
+        position: fixed;
+        inset: 0;
+        display: none;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      #HSCROLL.on {
+        display: block;
+      }
+      #HSTAGE {
+        display: flex;
+        height: 100%;
+        transition: transform 0.9s cubic-bezier(0.7, 0, 0.2, 1);
+      }
+      .SC {
+        width: 100vw;
+        height: 100%;
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .SC svg {
+        width: min(92vw, 1100px);
+        height: auto;
+        max-height: 78vh;
+        display: block;
+      }
+      .sc-label {
+        position: absolute;
+        top: 88px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        opacity: 0.6;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sc-label::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      /* ============== NAV ============== */
+      #NAV {
+        position: fixed;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 600;
+        background: var(--brown);
+        border-radius: 40px;
+        padding: 10px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s;
+        box-shadow: 0 10px 30px rgba(74, 21, 21, 0.25);
+      }
+      #NAV.on {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .NB {
+        background: none;
+        border: none;
+        color: var(--cream);
+        font-size: 0.95rem;
+        cursor: none;
+        opacity: 0.7;
+        font-family: inherit;
+        padding: 6px 8px;
+        border-radius: 50%;
+        transition:
+          opacity 0.2s,
+          background 0.2s,
+          transform 0.15s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+      }
+      .NB:hover {
+        opacity: 1;
+        background: rgba(247, 242, 234, 0.15);
+      }
+      .NB:active {
+        transform: scale(0.92);
+      }
+      .NB.active {
+        opacity: 1;
+        background: rgba(247, 242, 234, 0.22);
+      }
+      .NB svg {
+        width: 14px;
+        height: 14px;
+      }
+      .NSEP {
+        width: 1px;
+        height: 18px;
+        background: rgba(247, 242, 234, 0.25);
+      }
+      #NDOTS {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 0 4px;
+      }
+      .ND {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: rgba(247, 242, 234, 0.32);
+        cursor: none;
+        transition:
+          background 0.3s,
+          transform 0.3s,
+          width 0.3s;
+        border: none;
+        padding: 0;
+      }
+      .ND:hover {
+        background: rgba(247, 242, 234, 0.6);
+      }
+      .ND.A {
+        background: var(--cream);
+        width: 18px;
+        border-radius: 4px;
+      }
+
+      /* Scene name tooltip on nav */
+      #SC-NAME {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: calc(100% + 8px);
+        background: var(--brown);
+        color: var(--cream);
+        font-size: 0.62rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 5px 10px;
+        border-radius: 20px;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.25s;
+        pointer-events: none;
+      }
+      #NAV:hover #SC-NAME {
+        opacity: 0.95;
+      }
+
+      /* ============== MENU ============== */
+      #MENU {
+        position: fixed;
+        inset: 0;
+        z-index: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        background: rgba(74, 21, 21, 0.25);
+        backdrop-filter: blur(2px);
+      }
+      #MENU.on {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .MCARD {
+        background: var(--brown);
+        color: var(--cream);
+        font-family: var(--mono);
+        width: 340px;
+        padding: 28px 28px 20px;
+        border-radius: 3px;
+        position: relative;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        transform: translateY(10px);
+        transition: transform 0.35s ease;
+      }
+      #MENU.on .MCARD {
+        transform: translateY(0);
+      }
+      .MCLOSE {
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        background: none;
+        border: none;
+        color: var(--cream);
+        font-size: 1.1rem;
+        cursor: none;
+        opacity: 0.6;
+        font-family: inherit;
+      }
+      .MCLOSE:hover {
+        opacity: 1;
+      }
+      .MNAME {
+        text-align: center;
+        font-weight: 700;
+        font-size: 0.85rem;
+        margin-bottom: 3px;
+        letter-spacing: 0.02em;
+      }
+      .MEMAIL {
+        text-align: center;
+        color: var(--accent);
+        font-size: 0.75rem;
+        margin-bottom: 10px;
+      }
+      .MDASH {
+        border: none;
+        border-top: 1px dashed rgba(247, 242, 234, 0.35);
+        margin: 6px 0;
+      }
+      .MEQDASH {
+        border: none;
+        border-top: 2px double rgba(247, 242, 234, 0.55);
+        margin: 6px 0;
+      }
+      .MROW {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        opacity: 0.85;
+        margin: 5px 0;
+      }
+      .MITEM {
+        padding: 9px 0;
+        border-bottom: 1px dashed rgba(247, 242, 234, 0.3);
+        cursor: none;
+        font-size: 0.78rem;
+        transition:
+          opacity 0.2s,
+          padding-left 0.2s;
+      }
+      .MITEM::before {
+        content: "* ";
+      }
+      .MITEM:hover {
+        opacity: 0.7;
+        padding-left: 6px;
+      }
+      .MBAR {
+        text-align: center;
+        font-size: 1.7rem;
+        letter-spacing: -2px;
+        margin: 14px 0 6px;
+        opacity: 0.7;
+        font-family: monospace;
+      }
+      .MFOOT {
+        text-align: center;
+        opacity: 0.7;
+        font-size: 0.72rem;
+        line-height: 1.8;
+        margin-top: 8px;
+      }
+      .MFOOT u {
+        opacity: 0.95;
+      }
+      .MHAM {
+        text-align: center;
+        margin-top: 12px;
+        font-size: 1.1rem;
+        opacity: 0.5;
+      }
+
+      /* ============== ABOUT ============== */
+      #ABOUT {
+        position: fixed;
+        inset: 0;
+        background: var(--brown);
+        z-index: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s;
+        overflow: hidden;
+      }
+      #ABOUT.on {
+        opacity: 1;
+        pointer-events: all;
+      }
+      #ABOUT-BACK {
+        position: absolute;
+        top: 24px;
+        left: 38px;
+        background: none;
+        border: none;
+        color: var(--cream);
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        cursor: none;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+        text-transform: uppercase;
+      }
+      #ABOUT-BACK:hover {
+        opacity: 1;
+      }
+      .AMIRROR {
+        background: rgba(247, 242, 234, 0.06);
+        border: 1px solid rgba(247, 242, 234, 0.2);
+        border-radius: 14px;
+        padding: 46px 50px;
+        color: var(--cream);
+        font-family: var(--mono);
+        text-align: center;
+        max-width: 520px;
+        width: 90%;
+      }
+      .AMIRROR h2 {
+        font-family: var(--serif);
+        font-size: 1.6rem;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        margin-bottom: 22px;
+      }
+      .AMIRROR p {
+        font-size: 0.88rem;
+        line-height: 2;
+        opacity: 0.9;
+      }
+      .ACTA {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border: 2px solid rgba(247, 242, 234, 0.45);
+        border-radius: 50%;
+        margin-top: 28px;
+        color: var(--cream);
+        font-size: 1.2rem;
+        cursor: none;
+        transition:
+          border-color 0.2s,
+          background 0.2s,
+          transform 0.2s;
+        text-decoration: none;
+      }
+      .ACTA:hover {
+        border-color: var(--cream);
+        background: rgba(247, 242, 234, 0.12);
+        transform: scale(1.08);
+      }
+
+      /* ============== SVG anims ============== */
+      @keyframes STEAM {
+        0% {
+          opacity: 0;
+          transform: translateY(0) scaleX(1);
+        }
+        40% {
+          opacity: 0.55;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-50px) scaleX(1.6);
+        }
+      }
+      .S1 {
+        animation: STEAM 2.5s ease-out infinite;
+        transform-origin: center;
+        transform-box: fill-box;
+      }
+      .S2 {
+        animation: STEAM 2.5s ease-out infinite 0.85s;
+        transform-origin: center;
+        transform-box: fill-box;
+      }
+      .S3 {
+        animation: STEAM 2.5s ease-out infinite 1.7s;
+        transform-origin: center;
+        transform-box: fill-box;
+      }
+      @keyframes BLINK {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+      .CLN {
+        animation: BLINK 1s step-end infinite;
+      }
+      .MUG {
+        cursor: none;
+        transition: transform 0.3s;
+      }
+      .MUG:hover {
+        transform: translateY(-6px);
+      }
+
+      @media (max-width: 760px) {
+        #HDR {
+          padding: 0 20px;
+        }
+        .AMIRROR {
+          padding: 32px 26px;
+        }
+        body {
+          cursor: auto;
+        }
+        #CUR {
+          display: none;
+        }
+        .sc-label {
+          font-size: 0.6rem;
+          top: 72px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="CUR" class="dot"></div>
+
+    <div id="LOAD"><span id="LOAD-TXT">(h)</span></div>
+
+    <header id="HDR">
+      <div id="HDR-LEFT">(a café-shaped portfolio)</div>
+      <div id="HDR-LOGO">ALt.</div>
+      <div id="HDR-RIGHT">
+        <span id="NOWPLAY">Lofi vibes 🎵</span>
+        <button id="MUSIC-BTN" title="Play lofi" aria-label="Toggle music">
+          <span class="ic" id="MUSIC-IC"><span class="play-tri"></span></span>
+          <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        </button>
+      </div>
+    </header>
+
+    <aside id="WEBBY">
+      <span class="w">W.</span>
+      <span class="n">Nominee</span>
+    </aside>
+
+    <!-- ============== INTRO ============== -->
+    <section id="INTRO">
+      <div id="STICKY">
+        <div class="cloud cd1">
+          <svg
+            width="170"
+            height="60"
+            viewBox="0 0 170 60"
+            fill="none"
+            stroke="#4a1515"
+            stroke-width="1.6"
+          >
+            <path d="M5 50 Q 20 20 45 25 Q 60 5 85 18 Q 110 5 130 22 Q 160 22 165 50" />
+          </svg>
+        </div>
+        <div class="cloud cd2">
+          <svg
+            width="200"
+            height="68"
+            viewBox="0 0 200 68"
+            fill="none"
+            stroke="#4a1515"
+            stroke-width="1.6"
+          >
+            <path d="M5 58 Q 25 22 55 28 Q 75 5 100 20 Q 130 5 155 25 Q 185 25 195 58" />
+          </svg>
+        </div>
+        <div class="cloud cd3">
+          <svg
+            width="130"
+            height="48"
+            viewBox="0 0 130 48"
+            fill="none"
+            stroke="#4a1515"
+            stroke-width="1.5"
+          >
+            <path d="M5 40 Q 18 15 38 20 Q 55 5 75 18 Q 95 8 115 22 Q 125 22 125 40" />
+          </svg>
+        </div>
+        <div class="cloud cd4">
+          <svg
+            width="150"
+            height="55"
+            viewBox="0 0 150 55"
+            fill="none"
+            stroke="#4a1515"
+            stroke-width="1.5"
+          >
+            <path d="M5 45 Q 18 18 42 22 Q 60 5 82 20 Q 105 8 125 25 Q 145 25 145 45" />
+          </svg>
+        </div>
+
+        <div id="BIG-WRAP">
+          <div id="BIG-TITLE">ALt.</div>
+          <div id="BIG-SUB">(a café-shaped portfolio)</div>
+        </div>
+
+        <div id="GATHER">
+          <div class="gline line1">Less of a gallery, more of a gathering</div>
+          <div class="gline line2">Take a sip, stay a while</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== H-SCROLL ============== -->
+    <div id="HSCROLL">
+      <div id="HSTAGE">
+        <!-- ============= Scene 1: COUNTER ============= -->
+        <section class="SC" data-name="Each mug is a project">
+          <div class="sc-label">EACH MUG IS A PROJECT. GET A TASTE.</div>
+          <svg
+            viewBox="0 0 1100 600"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="#4a1515"
+            stroke-width="2.2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <!-- Plant left -->
+            <g>
+              <path
+                d="M120 320 q-20 -70 -5 -130 q15 -25 30 5 q5 -45 30 -55 q10 30 -10 60 q25 -10 35 30 q-5 30 -30 25 q15 25 -10 45"
+                fill="#4a1515"
+                stroke="none"
+              />
+              <path
+                d="M170 290 q15 -50 5 -95 q15 -20 25 5 q5 -30 25 -38 q10 22 -8 45 q22 -5 28 28 q-5 25 -25 22"
+                fill="#4a1515"
+                stroke="none"
+              />
+              <path d="M95 365 L240 365 L220 460 L115 460 Z" />
+              <path d="M105 380 q60 -10 125 0" stroke-width="1.4" opacity="0.6" />
+            </g>
+
+            <!-- Top shelf -->
+            <line x1="280" y1="220" x2="700" y2="220" stroke-width="3" />
+            <line x1="280" y1="226" x2="700" y2="226" stroke-width="1.2" opacity="0.6" />
+
+            <!-- Mug 1 (small espresso) -->
+            <g class="MUG">
+              <path d="M315 195 q0 -20 22 -20 q22 0 22 20 v15 q0 12 -22 12 q-22 0 -22 -12 z" />
+              <path d="M305 188 q5 -10 12 -2" />
+              <path d="M309 184 q4 -8 10 -2" stroke-width="1.4" />
+              <path d="M359 192 q14 2 14 14 q0 10 -14 12" />
+            </g>
+            <!-- Mug 2 (cap) -->
+            <g class="MUG">
+              <ellipse cx="430" cy="208" rx="38" ry="14" />
+              <path d="M392 208 q5 18 38 18 q33 0 38 -18" />
+              <path d="M468 200 q18 4 18 18 q0 12 -18 14" />
+              <path d="M405 200 q8 4 18 0 q8 4 18 0" stroke-width="1.4" opacity="0.7" />
+            </g>
+            <!-- Lamp -->
+            <g>
+              <path d="M540 175 q-30 0 -30 25 q30 22 60 0 q0 -25 -30 -25 z" />
+              <line x1="540" y1="200" x2="540" y2="245" />
+              <ellipse cx="540" cy="252" rx="9" ry="5" />
+              <line x1="525" y1="178" x2="555" y2="178" stroke-width="1.4" opacity="0.6" />
+            </g>
+            <!-- Mug 3 (mug with handle) -->
+            <g class="MUG">
+              <rect x="600" y="180" width="55" height="40" rx="4" />
+              <path d="M655 188 q14 4 14 14 q0 10 -14 12" />
+              <path d="M608 188 q4 -6 10 0 q4 -6 10 0 q4 -6 10 0" stroke-width="1.4" />
+            </g>
+
+            <!-- Steam -->
+            <g stroke-width="2" opacity="0.7">
+              <path class="S1" d="M337 168 q-5 -12 0 -22" />
+              <path class="S2" d="M430 165 q-5 -12 0 -22" />
+              <path class="S3" d="M627 165 q-5 -12 0 -22" />
+            </g>
+
+            <!-- Shelf 2 -->
+            <line x1="280" y1="335" x2="700" y2="335" stroke-width="3" />
+            <line x1="280" y1="341" x2="700" y2="341" stroke-width="1.2" opacity="0.6" />
+
+            <!-- Mug A: striped -->
+            <g class="MUG">
+              <path d="M310 295 q0 -10 8 -10 h45 q8 0 8 10 v32 q0 8 -8 8 h-45 q-8 0 -8 -8 z" />
+              <line x1="320" y1="298" x2="320" y2="332" stroke-width="1.4" />
+              <line x1="332" y1="298" x2="332" y2="332" stroke-width="1.4" />
+              <line x1="344" y1="298" x2="344" y2="332" stroke-width="1.4" />
+              <line x1="356" y1="298" x2="356" y2="332" stroke-width="1.4" />
+              <path d="M371 300 q14 4 14 16 q0 12 -14 14" />
+            </g>
+            <!-- Mug B: glass with stripes inside -->
+            <g class="MUG">
+              <path d="M410 290 L470 290 L463 335 L417 335 Z" />
+              <line x1="422" y1="295" x2="422" y2="332" stroke-width="1.4" opacity="0.7" />
+              <line x1="438" y1="295" x2="438" y2="332" stroke-width="1.4" opacity="0.7" />
+              <line x1="454" y1="295" x2="454" y2="332" stroke-width="1.4" opacity="0.7" />
+            </g>
+            <!-- Mug C: flower / chemex -->
+            <g class="MUG">
+              <path
+                d="M515 285 q-10 5 -10 18 l8 25 q4 8 22 8 q18 0 22 -8 l8 -25 q0 -13 -10 -18 z"
+              />
+              <path d="M520 295 q15 -8 35 0" stroke-width="1.4" />
+            </g>
+            <!-- Mug D: tea cup with tag -->
+            <g class="MUG">
+              <path d="M615 290 q20 -8 50 0 l-6 35 q-20 6 -38 0 z" />
+              <line x1="650" y1="295" x2="660" y2="275" stroke-width="1.4" />
+              <rect x="657" y="265" width="10" height="10" stroke-width="1.4" />
+            </g>
+
+            <!-- Steam shelf 2 -->
+            <g stroke-width="2" opacity="0.6">
+              <path class="S2" d="M340 280 q-4 -10 0 -18" />
+              <path class="S3" d="M538 278 q-4 -10 0 -18" />
+            </g>
+
+            <!-- Counter base -->
+            <rect x="80" y="460" width="850" height="20" />
+            <line x1="80" y1="570" x2="930" y2="570" stroke-width="2.5" />
+            <g stroke-width="1.6">
+              <line x1="120" y1="480" x2="120" y2="570" />
+              <line x1="160" y1="480" x2="160" y2="570" />
+              <line x1="200" y1="480" x2="200" y2="570" />
+              <line x1="240" y1="480" x2="240" y2="570" />
+              <line x1="280" y1="480" x2="280" y2="570" />
+              <line x1="320" y1="480" x2="320" y2="570" />
+              <line x1="360" y1="480" x2="360" y2="570" />
+              <line x1="400" y1="480" x2="400" y2="570" />
+              <line x1="440" y1="480" x2="440" y2="570" />
+              <line x1="480" y1="480" x2="480" y2="570" />
+              <line x1="520" y1="480" x2="520" y2="570" />
+              <line x1="560" y1="480" x2="560" y2="570" />
+              <line x1="600" y1="480" x2="600" y2="570" />
+              <line x1="640" y1="480" x2="640" y2="570" />
+              <line x1="680" y1="480" x2="680" y2="570" />
+              <line x1="720" y1="480" x2="720" y2="570" />
+              <line x1="760" y1="480" x2="760" y2="570" />
+              <line x1="800" y1="480" x2="800" y2="570" />
+              <line x1="840" y1="480" x2="840" y2="570" />
+              <line x1="880" y1="480" x2="880" y2="570" />
+            </g>
+            <!-- Tile dots -->
+            <g fill="#4a1515" stroke="none">
+              <circle cx="140" cy="510" r="1.5" />
+              <circle cx="180" cy="535" r="1.5" />
+              <circle cx="220" cy="510" r="1.5" />
+              <circle cx="260" cy="535" r="1.5" />
+              <circle cx="300" cy="510" r="1.5" />
+              <circle cx="340" cy="535" r="1.5" />
+              <circle cx="380" cy="510" r="1.5" />
+              <circle cx="420" cy="535" r="1.5" />
+              <circle cx="460" cy="510" r="1.5" />
+              <circle cx="500" cy="535" r="1.5" />
+              <circle cx="540" cy="510" r="1.5" />
+              <circle cx="580" cy="535" r="1.5" />
+              <circle cx="620" cy="510" r="1.5" />
+              <circle cx="660" cy="535" r="1.5" />
+              <circle cx="700" cy="510" r="1.5" />
+              <circle cx="740" cy="535" r="1.5" />
+              <circle cx="780" cy="510" r="1.5" />
+              <circle cx="820" cy="535" r="1.5" />
+              <circle cx="860" cy="510" r="1.5" />
+            </g>
+
+            <!-- Radio + clock on counter -->
+            <g>
+              <rect x="500" y="385" width="95" height="65" rx="3" />
+              <circle cx="525" cy="412" r="11" />
+              <circle cx="525" cy="412" r="5" />
+              <circle cx="565" cy="412" r="11" />
+              <circle cx="565" cy="412" r="5" />
+              <line x1="585" y1="385" x2="585" y2="360" />
+              <line x1="510" y1="430" x2="585" y2="430" stroke-width="1.2" />
+            </g>
+            <g>
+              <rect x="615" y="385" width="100" height="65" rx="3" />
+              <rect x="625" y="397" width="80" height="32" fill="#4a1515" stroke="#4a1515" />
+              <text
+                x="665"
+                y="421"
+                font-family="Courier Prime, monospace"
+                font-size="20"
+                fill="#ede8df"
+                text-anchor="middle"
+                font-weight="700"
+              >
+                17:58
+              </text>
+              <circle cx="625" cy="442" r="2.5" fill="#4a1515" />
+              <circle cx="705" cy="442" r="2.5" fill="#4a1515" />
+            </g>
+
+            <!-- Espresso machine -->
+            <g>
+              <rect x="755" y="240" width="200" height="220" rx="12" />
+              <rect x="770" y="262" width="170" height="36" rx="2" />
+              <rect x="780" y="272" width="80" height="20" fill="#4a1515" />
+              <circle cx="785" cy="328" r="7" />
+              <circle cx="810" cy="328" r="7" />
+              <circle cx="900" cy="328" r="7" />
+              <circle cx="925" cy="328" r="7" />
+              <line x1="785" y1="345" x2="785" y2="358" stroke-width="1.4" />
+              <line x1="810" y1="345" x2="810" y2="358" stroke-width="1.4" />
+              <line x1="900" y1="345" x2="900" y2="358" stroke-width="1.4" />
+              <line x1="925" y1="345" x2="925" y2="358" stroke-width="1.4" />
+              <rect x="820" y="370" width="70" height="50" rx="4" />
+              <line x1="855" y1="420" x2="855" y2="445" />
+              <rect x="838" y="445" width="35" height="10" rx="1" />
+              <!-- top knob -->
+              <circle cx="855" cy="232" r="6" />
+              <line x1="855" y1="226" x2="855" y2="216" />
+            </g>
+          </svg>
+        </section>
+
+        <!-- ============= Scene 2: QUOTE WALL + LOFI ============= -->
+        <section class="SC" data-name="A note on the wall">
+          <div class="sc-label">A LITTLE NOTE ON THE WALL</div>
+          <svg
+            viewBox="0 0 1100 600"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="#4a1515"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <!-- Frame -->
+            <rect x="270" y="100" width="560" height="280" rx="6" stroke-width="2.6" />
+            <rect
+              x="284"
+              y="114"
+              width="532"
+              height="252"
+              rx="3"
+              stroke-width="1.2"
+              opacity="0.4"
+            />
+            <text
+              x="550"
+              y="225"
+              font-family="Special Elite, serif"
+              font-size="30"
+              fill="#4a1515"
+              text-anchor="middle"
+            >
+              IS THERE SOMETHING BETTER
+            </text>
+            <text
+              x="550"
+              y="270"
+              font-family="Special Elite, serif"
+              font-size="30"
+              fill="#4a1515"
+              text-anchor="middle"
+            >
+              THAN THE SMELL
+            </text>
+            <text
+              x="550"
+              y="310"
+              font-family="Special Elite, serif"
+              font-size="30"
+              fill="#4a1515"
+              text-anchor="middle"
+            >
+              OF GOOD COFFEE?
+            </text>
+
+            <!-- Speaker (left) -->
+            <g>
+              <rect x="120" y="400" width="140" height="160" rx="8" />
+              <circle cx="190" cy="450" r="22" />
+              <circle cx="190" cy="450" r="10" />
+              <circle cx="190" cy="510" r="32" />
+              <circle cx="190" cy="510" r="14" />
+              <circle cx="190" cy="510" r="4" fill="#4a1515" />
+            </g>
+
+            <!-- Vinyl turntable center -->
+            <g>
+              <rect x="380" y="430" width="340" height="140" rx="6" />
+              <circle cx="500" cy="500" r="58" />
+              <circle cx="500" cy="500" r="42" stroke-width="1.2" opacity="0.5" />
+              <circle cx="500" cy="500" r="22" fill="#4a1515" stroke="#4a1515" />
+              <circle cx="500" cy="500" r="3" fill="#ede8df" />
+              <!-- tonearm -->
+              <line x1="660" y1="448" x2="555" y2="488" stroke-width="3" />
+              <circle cx="660" cy="448" r="8" />
+              <rect x="640" y="440" width="20" height="16" rx="2" />
+            </g>
+
+            <!-- Plant right -->
+            <g>
+              <path
+                d="M870 470 q-25 -70 -5 -125 q15 -15 30 5 q-5 -45 25 -55 q15 30 -10 60 q30 -10 38 30 q-10 25 -35 20 q15 25 -8 40"
+                fill="#4a1515"
+                stroke="none"
+              />
+              <rect x="850" y="470" width="100" height="55" rx="2" />
+              <line x1="860" y1="488" x2="940" y2="488" stroke-width="1.2" opacity="0.5" />
+            </g>
+
+            <!-- Lofi label box -->
+            <g>
+              <rect x="850" y="100" width="160" height="60" rx="6" />
+              <text
+                x="930"
+                y="128"
+                font-family="Courier Prime, monospace"
+                font-size="13"
+                fill="#4a1515"
+                text-anchor="middle"
+              >
+                Lofi vibes 🎵
+              </text>
+              <text
+                x="930"
+                y="150"
+                font-family="Courier Prime, monospace"
+                font-size="12"
+                fill="#4a1515"
+                text-anchor="middle"
+                opacity="0.7"
+              >
+                --:--
+              </text>
+            </g>
+          </svg>
+        </section>
+
+        <!-- ============= Scene 3: DOOR + QUOTE PAD ============= -->
+        <section class="SC" data-name="Choose your motivational quote">
+          <div class="sc-label">CHOOSE YOUR MOTIVATIONAL QUOTE</div>
+          <svg
+            viewBox="0 0 1100 600"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="#4a1515"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <!-- Note pad -->
+            <g>
+              <rect x="200" y="120" width="180" height="220" rx="3" />
+              <line x1="218" y1="108" x2="218" y2="132" stroke-width="2.5" />
+              <line x1="362" y1="108" x2="362" y2="132" stroke-width="2.5" />
+              <text
+                x="290"
+                y="200"
+                font-family="Courier Prime, monospace"
+                font-size="14"
+                fill="#4a1515"
+                text-anchor="middle"
+              >
+                CHOOSE YOUR
+              </text>
+              <text
+                x="290"
+                y="230"
+                font-family="Courier Prime, monospace"
+                font-size="14"
+                fill="#4a1515"
+                text-anchor="middle"
+              >
+                MOTIVATIONAL
+              </text>
+              <text
+                x="290"
+                y="260"
+                font-family="Courier Prime, monospace"
+                font-size="14"
+                fill="#4a1515"
+                text-anchor="middle"
+              >
+                QUOTE HERE
+              </text>
+            </g>
+
+            <!-- Door -->
+            <g>
+              <rect x="490" y="80" width="240" height="450" rx="3" stroke-width="2.5" />
+              <rect
+                x="505"
+                y="95"
+                width="210"
+                height="420"
+                rx="2"
+                stroke-width="1.2"
+                opacity="0.4"
+              />
+              <!-- peephole "surprised" face -->
+              <circle cx="610" cy="270" r="22" />
+              <circle cx="603" cy="263" r="2.5" fill="#4a1515" />
+              <circle cx="617" cy="263" r="2.5" fill="#4a1515" />
+              <ellipse cx="610" cy="278" rx="6" ry="4" />
+              <!-- handle -->
+              <rect x="695" y="315" width="22" height="48" rx="3" />
+              <line x1="695" y1="345" x2="717" y2="345" />
+            </g>
+
+            <!-- Chair + figure silhouette (left) -->
+            <g fill="rgba(74,21,21,0.10)" stroke="none">
+              <ellipse cx="290" cy="380" rx="42" ry="28" />
+              <path
+                d="M260 400 q40 -15 75 25 q15 50 -15 95 q-30 25 -45 100 l40 0 q10 -55 35 -85 q40 -25 50 -70 q5 -50 -35 -75 z"
+              />
+            </g>
+            <g>
+              <rect x="200" y="450" width="140" height="14" rx="2" />
+              <line x1="215" y1="464" x2="195" y2="560" />
+              <line x1="325" y1="464" x2="345" y2="560" />
+              <line x1="208" y1="500" x2="335" y2="500" stroke-width="1.4" />
+            </g>
+
+            <!-- Side table + pencils -->
+            <g>
+              <rect x="370" y="410" width="120" height="10" rx="2" />
+              <line x1="382" y1="420" x2="370" y2="560" />
+              <line x1="478" y1="420" x2="490" y2="560" />
+              <rect x="400" y="360" width="55" height="50" rx="3" />
+              <line x1="408" y1="360" x2="408" y2="332" />
+              <line x1="420" y1="360" x2="420" y2="320" />
+              <line x1="432" y1="360" x2="432" y2="338" />
+              <line x1="444" y1="360" x2="444" y2="328" />
+              <!-- pencil tips -->
+              <path d="M404 332 l4 -10 l4 10 z" fill="#4a1515" />
+              <path d="M416 320 l4 -10 l4 10 z" fill="#4a1515" />
+              <path d="M428 338 l4 -10 l4 10 z" fill="#4a1515" />
+              <path d="M440 328 l4 -10 l4 10 z" fill="#4a1515" />
+            </g>
+
+            <!-- Phone pedestal (right) -->
+            <g>
+              <rect x="800" y="430" width="160" height="130" />
+              <rect x="815" y="445" width="130" height="100" />
+              <line x1="810" y1="475" x2="950" y2="475" stroke-width="1.4" />
+              <line x1="810" y1="510" x2="950" y2="510" stroke-width="1.4" />
+              <!-- phone body -->
+              <rect x="810" y="320" width="140" height="80" rx="8" />
+              <!-- bell handles -->
+              <ellipse cx="838" cy="312" rx="20" ry="14" />
+              <ellipse cx="922" cy="312" rx="20" ry="14" />
+              <line x1="838" y1="312" x2="838" y2="324" />
+              <line x1="922" y1="312" x2="922" y2="324" />
+              <!-- dial -->
+              <circle cx="880" cy="370" r="22" />
+              <circle cx="880" cy="370" r="6" fill="#4a1515" />
+              <g fill="#4a1515" stroke="none">
+                <circle cx="880" cy="354" r="2" />
+                <circle cx="892" cy="358" r="2" />
+                <circle cx="898" cy="370" r="2" />
+                <circle cx="892" cy="382" r="2" />
+                <circle cx="880" cy="386" r="2" />
+                <circle cx="868" cy="382" r="2" />
+                <circle cx="862" cy="370" r="2" />
+                <circle cx="868" cy="358" r="2" />
+              </g>
+              <!-- handset cradle -->
+              <rect x="850" y="400" width="60" height="14" rx="3" />
+            </g>
+          </svg>
+        </section>
+
+        <!-- ============= Scene 4: SINK + MIRROR (ABOUT) ============= -->
+        <section class="SC" data-name="A look in the mirror">
+          <div class="sc-label">A QUICK LOOK IN THE MIRROR</div>
+          <svg
+            viewBox="0 0 1100 600"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="#4a1515"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <!-- Speech bubble -->
+            <g>
+              <rect x="130" y="100" width="270" height="60" rx="4" />
+              <path d="M250 160 L262 178 L274 160" />
+              <text
+                x="265"
+                y="125"
+                font-family="Courier Prime, monospace"
+                font-size="11"
+                fill="#4a1515"
+                text-anchor="middle"
+              >
+                I DIDN'T MAKE THESE,
+              </text>
+              <text
+                x="265"
+                y="145"
+                font-family="Courier Prime, monospace"
+                font-size="11"
+                fill="#4a1515"
+                text-anchor="middle"
+              >
+                BUT THEY MADE ME
+              </text>
+            </g>
+
+            <!-- Stack of books -->
+            <g>
+              <!-- top book with link -->
+              <rect x="195" y="195" width="180" height="26" />
+              <text
+                x="285"
+                y="213"
+                font-family="Courier Prime, monospace"
+                font-size="12"
+                fill="#4a1515"
+                text-anchor="middle"
+                text-decoration="underline"
+              >
+                @jamesboorman
+              </text>
+              <rect x="180" y="225" width="210" height="26" />
+              <line x1="200" y1="232" x2="225" y2="232" stroke-width="1.4" />
+              <line x1="200" y1="240" x2="240" y2="240" stroke-width="1.4" />
+              <rect x="170" y="255" width="230" height="28" />
+              <line x1="190" y1="265" x2="370" y2="265" stroke-width="1.2" opacity="0.5" />
+              <rect x="160" y="287" width="250" height="30" />
+              <rect x="150" y="321" width="270" height="32" />
+
+              <!-- Pedestal sink stand -->
+              <path d="M115 357 L455 357 L440 530 L130 530 Z" />
+              <line x1="125" y1="370" x2="445" y2="370" stroke-width="1.2" opacity="0.5" />
+              <ellipse cx="180" cy="430" rx="12" ry="6" />
+            </g>
+
+            <!-- Mirror -->
+            <g>
+              <rect x="540" y="120" width="380" height="240" rx="12" stroke-width="2.5" />
+              <rect
+                x="555"
+                y="135"
+                width="350"
+                height="210"
+                rx="6"
+                stroke-width="1.2"
+                opacity="0.4"
+              />
+              <text
+                x="730"
+                y="250"
+                font-family="Courier Prime, monospace"
+                font-size="22"
+                fill="#4a1515"
+                text-anchor="middle"
+                letter-spacing="2"
+              >
+                ABOUT ME?
+              </text>
+              <!-- shine streaks -->
+              <line x1="570" y1="155" x2="610" y2="195" opacity="0.45" stroke-width="2" />
+              <line x1="585" y1="150" x2="615" y2="180" opacity="0.45" stroke-width="2" />
+              <line x1="855" y1="305" x2="895" y2="345" opacity="0.45" stroke-width="2" />
+              <line x1="870" y1="305" x2="892" y2="327" opacity="0.45" stroke-width="2" />
+            </g>
+
+            <!-- Sink -->
+            <g>
+              <ellipse cx="730" cy="420" rx="180" ry="22" />
+              <path d="M550 420 Q550 510 660 525 L800 525 Q910 510 910 420" />
+              <ellipse
+                cx="730"
+                cy="490"
+                rx="20"
+                ry="6"
+                fill="#4a1515"
+                stroke="#4a1515"
+                opacity="0.5"
+              />
+              <!-- taps -->
+              <rect x="650" y="385" width="40" height="14" rx="3" />
+              <rect x="720" y="378" width="22" height="22" />
+              <line x1="731" y1="378" x2="731" y2="365" />
+              <circle cx="731" cy="362" r="4" />
+              <rect x="772" y="385" width="40" height="14" rx="3" />
+              <line x1="668" y1="399" x2="668" y2="420" />
+              <line x1="792" y1="399" x2="792" y2="420" />
+            </g>
+          </svg>
+        </section>
+
+        <!-- ============= Scene 5: IDEAS THAT DIDN'T MAKE IT ============= -->
+        <section class="SC" data-name="Ideas that didn't make it">
+          <div class="sc-label">IDEAS THAT DIDN'T MAKE IT TO THE MENU</div>
+          <svg
+            viewBox="0 0 1100 600"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="#4a1515"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <!-- Note pad center top -->
+            <g>
+              <rect x="465" y="100" width="180" height="220" rx="3" />
+              <line x1="483" y1="88" x2="483" y2="112" stroke-width="2.5" />
+              <line x1="627" y1="88" x2="627" y2="112" stroke-width="2.5" />
+              <text
+                x="555"
+                y="180"
+                font-family="Courier Prime, monospace"
+                font-size="14"
+                fill="#4a1515"
+                text-anchor="middle"
+              >
+                IDEAS THAT
+              </text>
+              <text
+                x="555"
+                y="210"
+                font-family="Courier Prime, monospace"
+                font-size="14"
+                fill="#4a1515"
+                text-anchor="middle"
+              >
+                DIDN'T MAKE IT
+              </text>
+              <text
+                x="555"
+                y="240"
+                font-family="Courier Prime, monospace"
+                font-size="14"
+                fill="#4a1515"
+                text-anchor="middle"
+              >
+                TO THE MENU
+              </text>
+            </g>
+
+            <!-- Two figure silhouettes -->
+            <g fill="rgba(74,21,21,0.10)" stroke="none">
+              <path
+                d="M180 320 q50 -25 100 15 q25 35 0 75 q-25 60 -45 150 l32 0 q22 -65 50 -100 q35 -35 35 -85 q-5 -55 -55 -70 z"
+              />
+              <path
+                d="M780 310 q-50 -15 -100 25 q-15 35 15 75 q25 60 45 150 l-32 0 q-22 -65 -50 -100 q-35 -35 -35 -85 q5 -55 55 -70 z"
+              />
+            </g>
+
+            <!-- Chair left -->
+            <g>
+              <rect x="170" y="430" width="130" height="14" rx="2" />
+              <line x1="185" y1="444" x2="160" y2="560" />
+              <line x1="285" y1="444" x2="310" y2="560" />
+              <line x1="180" y1="495" x2="295" y2="495" stroke-width="1.4" />
+            </g>
+            <!-- Chair right -->
+            <g>
+              <rect x="690" y="430" width="130" height="14" rx="2" />
+              <line x1="705" y1="444" x2="680" y2="560" />
+              <line x1="805" y1="444" x2="830" y2="560" />
+              <line x1="700" y1="495" x2="815" y2="495" stroke-width="1.4" />
+            </g>
+
+            <!-- Table center with mate -->
+            <g>
+              <rect x="410" y="430" width="220" height="14" rx="2" />
+              <line x1="430" y1="444" x2="418" y2="560" />
+              <line x1="610" y1="444" x2="622" y2="560" />
+              <!-- mate -->
+              <path
+                d="M495 365 q-12 0 -12 14 l6 42 q5 9 31 9 q26 0 31 -9 l6 -42 q0 -14 -12 -14 z"
+              />
+              <path d="M495 380 q15 -8 50 0" stroke-width="1.4" />
+              <!-- bombilla -->
+              <line x1="535" y1="365" x2="565" y2="335" stroke-width="2.5" />
+              <ellipse cx="566" cy="332" rx="5" ry="3" />
+              <!-- lid wave -->
+              <path d="M488 360 q12 -8 24 0 q12 -8 24 0 q12 -8 24 0" stroke-width="1.4" />
+            </g>
+
+            <!-- Window + coffee bag (right) -->
+            <g>
+              <rect x="845" y="180" width="180" height="180" />
+              <line x1="845" y1="270" x2="1025" y2="270" stroke-width="2.5" />
+              <line x1="935" y1="180" x2="935" y2="360" stroke-width="2.5" />
+              <!-- window highlights -->
+              <line x1="858" y1="195" x2="878" y2="215" stroke-width="1.2" opacity="0.4" />
+              <line x1="868" y1="195" x2="880" y2="207" stroke-width="1.2" opacity="0.4" />
+              <!-- shelf -->
+              <line x1="820" y1="395" x2="1050" y2="395" stroke-width="2.5" />
+              <!-- coffee bag -->
+              <path d="M880 305 L880 392 L935 392 L935 305 Z" />
+              <line x1="892" y1="305" x2="892" y2="392" stroke-width="1.4" />
+              <line x1="908" y1="305" x2="908" y2="392" stroke-width="1.4" />
+              <line x1="924" y1="305" x2="924" y2="392" stroke-width="1.4" />
+              <circle cx="908" cy="350" r="9" fill="#4a1515" stroke="#4a1515" />
+              <!-- folded top -->
+              <path d="M876 305 q14 -10 28 0 q14 -10 28 0" />
+            </g>
+
+            <!-- Cat -->
+            <g>
+              <path
+                d="M880 545 q-25 -8 -32 -32 q-6 -18 12 -28 q8 -18 24 -10 q18 -6 30 6 q18 6 22 28 l-2 40 z"
+              />
+              <!-- ears -->
+              <path d="M850 503 l-5 -14 l12 8 z" />
+              <path d="M880 495 l4 -14 l-10 8 z" />
+              <!-- tail -->
+              <path d="M912 540 q22 -8 32 -30 q5 -12 -2 -18" />
+              <!-- eyes -->
+              <circle cx="868" cy="528" r="1.6" fill="#4a1515" />
+              <circle cx="888" cy="528" r="1.6" fill="#4a1515" />
+            </g>
+          </svg>
+        </section>
+
+        <!-- ============= Scene 6: CLOSING ============= -->
+        <section class="SC" data-name="See you again">
+          <div class="sc-label">THANKS FOR STOPPING BY</div>
+          <svg
+            viewBox="0 0 1100 600"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="#4a1515"
+            stroke-width="2.4"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <!-- Saucer -->
+            <ellipse cx="550" cy="490" rx="200" ry="22" />
+            <!-- Big mug -->
+            <g>
+              <path d="M420 240 L420 410 Q420 460 490 460 L590 460 Q660 460 660 410 L660 240 Z" />
+              <path d="M660 280 Q730 280 730 340 Q730 400 660 400" />
+              <!-- coffee surface -->
+              <ellipse
+                cx="540"
+                cy="245"
+                rx="118"
+                ry="14"
+                fill="#4a1515"
+                stroke="#4a1515"
+                opacity="0.85"
+              />
+              <!-- heart latte art -->
+              <path
+                d="M540 240 q-10 -10 -16 -2 q-6 8 16 22 q22 -14 16 -22 q-6 -8 -16 2 z"
+                fill="#ede8df"
+                stroke="#ede8df"
+              />
+            </g>
+            <!-- Steam -->
+            <g stroke-width="2.5" opacity="0.7">
+              <path class="S1" d="M470 215 q-6 -16 0 -32 q6 -16 0 -30" />
+              <path class="S2" d="M540 210 q-6 -16 0 -32 q6 -16 0 -30" />
+              <path class="S3" d="M610 215 q-6 -16 0 -32 q6 -16 0 -30" />
+            </g>
+            <text
+              x="550"
+              y="555"
+              font-family="Special Elite, serif"
+              font-size="32"
+              fill="#4a1515"
+              text-anchor="middle"
+            >
+              see you again ♥
+            </text>
+          </svg>
+        </section>
+      </div>
+    </div>
+
+    <!-- ============== NAV ============== -->
+    <nav id="NAV">
+      <span id="SC-NAME">Scene 1</span>
+      <button class="NB" id="NB-INFO" title="About me" aria-label="About">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="9" />
+          <line x1="12" y1="11" x2="12" y2="17" />
+          <circle cx="12" cy="7.5" r="1.2" fill="currentColor" />
+        </svg>
+      </button>
+      <div class="NSEP"></div>
+      <button class="NB" id="NB-MENU" title="Menu" aria-label="Menu">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+        >
+          <line x1="4" y1="8" x2="20" y2="8" />
+          <line x1="4" y1="16" x2="20" y2="16" />
+        </svg>
+      </button>
+      <div class="NSEP"></div>
+      <button class="NB" id="NB-PREV" title="Previous" aria-label="Previous">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="14 6 8 12 14 18" />
+        </svg>
+      </button>
+      <div id="NDOTS"></div>
+      <button class="NB" id="NB-NEXT" title="Next" aria-label="Next">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="10 6 16 12 10 18" />
+        </svg>
+      </button>
+    </nav>
+
+    <!-- ============== MENU ============== -->
+    <div id="MENU">
+      <div class="MCARD">
+        <button class="MCLOSE" id="MCLOSE">×</button>
+        <div class="MNAME">Maria Eugenia Solano</div>
+        <div class="MEMAIL">marusolanoo@gmail.com</div>
+        <hr class="MDASH" />
+        <div class="MROW"><span>Table: 4</span><span>Dine In</span></div>
+        <hr class="MEQDASH" />
+        <div class="MITEM" data-go="0">ALt.</div>
+        <div class="MITEM" data-action="about">WHO'S BEHIND IT?</div>
+        <div class="MITEM" data-go="1">COFFEE SHOPS RECOMENDATIONS?</div>
+        <div class="MITEM" data-go="4">YOU ARE MORE OF A TEA PERSON?</div>
+        <div class="MBAR">|||||||| |||| ||||||||||| |||</div>
+        <div class="MFOOT">MADE IN <u>URUGUAY</u><br />ALt. 2025<br /><br />THANK YOU :)</div>
+        <div class="MHAM">═</div>
+      </div>
+    </div>
+
+    <!-- ============== ABOUT ============== -->
+    <div id="ABOUT">
+      <button id="ABOUT-BACK">← BACK</button>
+      <div class="AMIRROR">
+        <h2>about me?</h2>
+        <p>
+          I'm Maru — a designer based in Uruguay, brewing little stories at the intersection of
+          branding, motion and quiet weirdness. I balance intuition with structure, chaos with
+          clarity, and I always order a flat white.
+        </p>
+        <a class="ACTA" href="mailto:marusolanoo@gmail.com" title="Say hi">✉</a>
+      </div>
+    </div>
+
+    <!-- ============== AUDIO ============== -->
+    <!-- Royalty-free lofi loop hosted on archive.org -->
+    <audio id="AUDIO" loop preload="none" crossorigin="anonymous">
+      <source
+        src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <script>
+      (function () {
+        /* ============= Cursor ============= */
+        const cur = document.getElementById("CUR");
+        let cx = window.innerWidth / 2,
+          cy = window.innerHeight / 2,
+          tx = cx,
+          ty = cy;
+        window.addEventListener("mousemove", (e) => {
+          tx = e.clientX;
+          ty = e.clientY;
+        });
+        function loop() {
+          cx += (tx - cx) * 0.25;
+          cy += (ty - cy) * 0.25;
+          cur.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
+          requestAnimationFrame(loop);
+        }
+        loop();
+
+        const HOVER_SEL = "button, a, .MITEM, .MUG, .ND, .NB, #MUSIC-BTN, [data-hover]";
+        document.addEventListener("mouseover", (e) => {
+          if (e.target.closest(HOVER_SEL)) document.body.classList.add("HOVERING");
+        });
+        document.addEventListener("mouseout", (e) => {
+          if (e.target.closest(HOVER_SEL)) document.body.classList.remove("HOVERING");
+        });
+        document.addEventListener("mousedown", () => document.body.classList.add("CLICKING"));
+        document.addEventListener("mouseup", () => document.body.classList.remove("CLICKING"));
+
+        /* ============= Loading typewriter ============= */
+        document.body.classList.add("loading");
+        const loadEl = document.getElementById("LOAD");
+        const loadTxt = document.getElementById("LOAD-TXT");
+        const phrases = ["(h)", "(he)", "(hel)", "(hell)", "(hello)"];
+        let pi = 0;
+        const tw = setInterval(() => {
+          loadTxt.textContent = phrases[pi++];
+          if (pi >= phrases.length) {
+            clearInterval(tw);
+            setTimeout(() => {
+              loadEl.classList.add("out");
+              // After loader: only Webby badge and Music button visible.
+              // Header logo + tagline are still hidden until user scrolls.
+              document.body.classList.remove("loading");
+              document.getElementById("WEBBY").classList.add("on");
+              // Fade clouds in once intro is visible
+              document.querySelectorAll(".cloud").forEach((c) => c.classList.add("in"));
+            }, 500);
+          }
+        }, 220);
+
+        /* ============= Music ============= */
+        const audio = document.getElementById("AUDIO");
+        const mb = document.getElementById("MUSIC-BTN");
+        const mIc = document.getElementById("MUSIC-IC");
+        const nowPlay = document.getElementById("NOWPLAY");
+        audio.volume = 0.45;
+        let playing = false;
+        function setIcon(p) {
+          if (p) {
+            mIc.innerHTML = '<span class="pause"><i></i><i></i></span>';
+          } else {
+            mIc.innerHTML = '<span class="play-tri"></span>';
+          }
+        }
+        function togglePlay() {
+          if (!playing) {
+            audio
+              .play()
+              .then(() => {
+                playing = true;
+                mb.classList.add("playing");
+                setIcon(true);
+                nowPlay.classList.add("show");
+                mb.title = "Pause lofi";
+              })
+              .catch(() => {
+                // playback blocked — show hint anyway
+                playing = false;
+                mb.title = "Click to play (browser blocked autoplay)";
+              });
+          } else {
+            audio.pause();
+            playing = false;
+            mb.classList.remove("playing");
+            setIcon(false);
+            nowPlay.classList.remove("show");
+            mb.title = "Play lofi";
+          }
+        }
+        mb.addEventListener("click", togglePlay);
+
+        /* ============= Intro scroll-driven ============= */
+        const intro = document.getElementById("INTRO");
+        const sticky = document.getElementById("STICKY");
+        const bigWrap = document.getElementById("BIG-WRAP");
+        const gather = document.getElementById("GATHER");
+        const hscroll = document.getElementById("HSCROLL");
+        const stage = document.getElementById("HSTAGE");
+        const scenes = document.querySelectorAll(".SC");
+        const totalScenes = scenes.length;
+        const scNameEl = document.getElementById("SC-NAME");
+
+        let inHScroll = false;
+        let curScene = 0;
+
+        // Font carousel for the big ALt. title.
+        // First and last font MUST be Special Elite (= the header logo font),
+        // so the title visibly "morphs" into the header logo at the end.
+        const TITLE_FONTS = [
+          '"Special Elite", serif',
+          '"Playfair Display", serif',
+          '"Bebas Neue", sans-serif',
+          '"Caveat", cursive',
+          '"Abril Fatface", serif',
+          '"DM Serif Display", serif',
+          '"Major Mono Display", monospace',
+          '"Pacifico", cursive',
+          '"Courier Prime", monospace',
+          '"Special Elite", serif',
+        ];
+        const bigTitle = document.getElementById("BIG-TITLE");
+        const hdrLogo = document.getElementById("HDR-LOGO");
+        const hdrLeft = document.getElementById("HDR-LEFT");
+
+        // Throttled font cycling — change at most every FONT_TICK ms while in transition zone.
+        const FONT_TICK = 110; // ms between font swaps
+        let lastFontTime = 0;
+        let lastFontIdx = -1;
+        const cloudsEls = document.querySelectorAll(".cloud");
+
+        function onScroll() {
+          if (inHScroll) return;
+          const rect = intro.getBoundingClientRect();
+          const total = intro.offsetHeight - window.innerHeight;
+          const scrolled = Math.min(Math.max(-rect.top, 0), total);
+          const p = scrolled / total;
+
+          const line1 = gather.querySelector(".line1");
+          const line2 = gather.querySelector(".line2");
+
+          // Header reveal with hysteresis to prevent flicker around threshold.
+          // Show after p > 0.06; hide only when truly back at top (p < 0.005).
+          if (p > 0.06) {
+            hdrLogo.classList.add("on");
+            hdrLeft.classList.add("on");
+          } else if (p < 0.005) {
+            hdrLogo.classList.remove("on");
+            hdrLeft.classList.remove("on");
+          }
+
+          // Big title font cycling — locked to Special Elite outside [0.02 .. 0.42].
+          // In the middle zone, throttle font changes so the swap looks smooth
+          // rather than jumping every scroll frame.
+          let fontIdx;
+          let inZone = false;
+          if (p <= 0.02) {
+            fontIdx = 0;
+          } else if (p >= 0.42) {
+            fontIdx = TITLE_FONTS.length - 1;
+          } else {
+            inZone = true;
+            const t = (p - 0.02) / (0.42 - 0.02);
+            fontIdx = Math.min(
+              TITLE_FONTS.length - 2,
+              Math.max(1, Math.floor(t * (TITLE_FONTS.length - 1))),
+            );
+          }
+          const now = performance.now();
+          const canSwap = !inZone || now - lastFontTime >= FONT_TICK;
+          if (fontIdx !== lastFontIdx && canSwap) {
+            bigTitle.style.fontFamily = TITLE_FONTS[fontIdx];
+            lastFontIdx = fontIdx;
+            lastFontTime = now;
+          }
+
+          // Clouds: opacity dips slightly as user scrolls deeper into intro.
+          const cloudOp = Math.max(0.18, 0.85 - p * 0.95);
+          cloudsEls.forEach((c) => {
+            c.style.opacity = c.classList.contains("in") ? cloudOp : 0;
+          });
+
+          if (p < 0.5) {
+            const t = p / 0.5;
+            const scale = 1 - 0.85 * t;
+            const ty = -50 * t;
+            bigWrap.style.transform = `translate(-50%,calc(-50% + ${ty}vh)) scale(${scale})`;
+            bigWrap.style.opacity = 1 - t * 0.95;
+            sticky.classList.remove("scene2", "scene3");
+            line1.classList.remove("show");
+            line2.classList.remove("show");
+          } else {
+            bigWrap.style.opacity = 0;
+            sticky.classList.add("scene2");
+            line1.classList.toggle("show", p >= 0.58);
+            line2.classList.toggle("show", p >= 0.78);
+          }
+
+          if (p >= 0.999) enterHScroll();
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+
+        function enterHScroll() {
+          if (inHScroll) return;
+          inHScroll = true;
+          document.body.style.overflow = "hidden";
+          hscroll.classList.add("on");
+          document.getElementById("NAV").classList.add("on");
+          goScene(0);
+        }
+        function exitHScroll() {
+          if (!inHScroll) return;
+          inHScroll = false;
+          document.body.style.overflow = "";
+          hscroll.classList.remove("on");
+          document.getElementById("NAV").classList.remove("on");
+          window.scrollTo({ top: intro.offsetHeight - window.innerHeight - 2, behavior: "auto" });
+        }
+
+        function goScene(i) {
+          curScene = Math.max(0, Math.min(totalScenes - 1, i));
+          stage.style.transform = `translateX(${-curScene * 100}vw)`;
+          document
+            .querySelectorAll(".ND")
+            .forEach((d, idx) => d.classList.toggle("A", idx === curScene));
+          // update label and prev/next disabled visual
+          const name = scenes[curScene].dataset.name || "Scene " + (curScene + 1);
+          scNameEl.textContent = `${curScene + 1}/${totalScenes} · ${name}`;
+          document.getElementById("NB-PREV").style.opacity = curScene === 0 ? "0.35" : "";
+          document.getElementById("NB-NEXT").style.opacity =
+            curScene === totalScenes - 1 ? "0.35" : "";
+        }
+
+        /* dots */
+        const ndots = document.getElementById("NDOTS");
+        for (let i = 0; i < totalScenes; i++) {
+          const b = document.createElement("button");
+          b.className = "ND" + (i === 0 ? " A" : "");
+          b.title = scenes[i].dataset.name || "Scene " + (i + 1);
+          b.addEventListener("click", () => goScene(i));
+          ndots.appendChild(b);
+        }
+        document.getElementById("NB-PREV").addEventListener("click", () => {
+          if (curScene === 0) {
+            exitHScroll();
+            return;
+          }
+          goScene(curScene - 1);
+        });
+        document.getElementById("NB-NEXT").addEventListener("click", () => {
+          if (curScene < totalScenes - 1) goScene(curScene + 1);
+        });
+
+        /* wheel + keys */
+        let wheelLock = false;
+        window.addEventListener(
+          "wheel",
+          (e) => {
+            if (!inHScroll) return;
+            if (wheelLock) return;
+            const d = e.deltaY || e.deltaX;
+            if (Math.abs(d) < 8) return;
+            wheelLock = true;
+            setTimeout(() => (wheelLock = false), 800);
+            if (d > 0) {
+              if (curScene < totalScenes - 1) goScene(curScene + 1);
+            } else {
+              if (curScene > 0) goScene(curScene - 1);
+              else exitHScroll();
+            }
+          },
+          { passive: true },
+        );
+
+        window.addEventListener("keydown", (e) => {
+          if (inHScroll) {
+            if (e.key === "ArrowRight") goScene(curScene + 1);
+            else if (e.key === "ArrowLeft") {
+              if (curScene === 0) exitHScroll();
+              else goScene(curScene - 1);
+            } else if (e.key === "Escape") closeAll();
+          }
+        });
+
+        /* swipe */
+        let tsx = 0;
+        window.addEventListener(
+          "touchstart",
+          (e) => {
+            tsx = e.touches[0].clientX;
+          },
+          { passive: true },
+        );
+        window.addEventListener("touchend", (e) => {
+          if (!inHScroll) return;
+          const dx = e.changedTouches[0].clientX - tsx;
+          if (Math.abs(dx) < 40) return;
+          if (dx < 0) goScene(curScene + 1);
+          else {
+            if (curScene === 0) exitHScroll();
+            else goScene(curScene - 1);
+          }
+        });
+
+        /* MENU */
+        const menu = document.getElementById("MENU");
+        function openMenu() {
+          menu.classList.add("on");
+          document.body.classList.add("DARKCUR");
+        }
+        function closeMenu() {
+          menu.classList.remove("on");
+          document.body.classList.remove("DARKCUR");
+        }
+        document.getElementById("NB-MENU").addEventListener("click", openMenu);
+        document.getElementById("MCLOSE").addEventListener("click", closeMenu);
+        menu.addEventListener("click", (e) => {
+          if (e.target === menu) closeMenu();
+        });
+
+        document.querySelectorAll(".MITEM").forEach((it) => {
+          it.addEventListener("click", () => {
+            const action = it.dataset.action;
+            closeMenu();
+            if (action === "about") {
+              openAbout();
+              return;
+            }
+            const g = parseInt(it.dataset.go || "0", 10);
+            if (!inHScroll) enterHScroll();
+            goScene(g);
+          });
+        });
+
+        /* ABOUT */
+        const about = document.getElementById("ABOUT");
+        function openAbout() {
+          about.classList.add("on");
+          document.body.classList.add("DARKCUR");
+        }
+        function closeAbout() {
+          about.classList.remove("on");
+          document.body.classList.remove("DARKCUR");
+        }
+        document.getElementById("ABOUT-BACK").addEventListener("click", closeAbout);
+        document.getElementById("NB-INFO").addEventListener("click", openAbout);
+
+        function closeAll() {
+          closeMenu();
+          closeAbout();
+        }
+      })();
+    </script>
+  </body>
+</html>
