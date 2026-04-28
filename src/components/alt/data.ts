@@ -131,7 +131,7 @@ export const HERO_CODE = `const me = {
 
 export const BIO_TEXT = `Mình là Hàn Hằng - một Bảo Bình yêu tự do và sự chân thành.
 Website này là nơi mình lưu giữ hành trình từ cô nữ sinh cấp 3 đầy mơ mộng đến một sinh viên đại học đang học cách yêu cuộc sống qua những điều giản đơn nhất.
-Mình không có một gia đình giàu có về vật chất, nhưng mình có tất cả sự giàu sang của tình yêu: từ mẹ, từ anh chị, từ cậu trò nhỏ và từ những người bạn tuyệt vời.
+Mình không có một gia đình giàu có về vật chất, nhưng mình có tất cả sự giàu sang của tình yêu: từ mẹ, từ anh chị, từ anh người yêu, từ cậu trò nhỏ và từ những người bạn tuyệt vời.
 Cảm ơn bạn đã ghé thăm thế giới nhỏ bé nhưng luôn rực rỡ nắng của mình.
 Hy vọng bạn cũng tìm thấy chút nắng cho riêng mình ngày hôm nay!`;
 

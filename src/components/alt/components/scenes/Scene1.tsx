@@ -42,8 +42,8 @@ export function Scene1() {
 
         <div className={s.sc1Todo} role="note" aria-label="Ghi chú">
           <ul className={s.sc1TodoList}>
-            <li>Soạn giáo án</li>
-            <li>Chấm bài</li>
+            <li>Cố gắng ăn uống đầy đủ</li>
+            <li>Ngủ đủ giấc</li>
             <li>Nước dừa</li>
           </ul>
         </div>
