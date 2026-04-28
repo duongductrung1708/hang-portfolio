@@ -54,7 +54,8 @@ export const TIMELINE_CHAPTERS: TimelineChapter[] = [
   {
     title: "Tương lai phía trước",
     period: "Đang viết tiếp",
-    content: "Mình vẫn đang học cách yêu cuộc sống, yêu nghề và yêu chính mình một cách dịu dàng hơn mỗi ngày.",
+    content:
+      "Mình vẫn đang học cách yêu cuộc sống, yêu nghề và yêu chính mình một cách dịu dàng hơn mỗi ngày.",
     visual: "Ngôi sao nhỏ đang được nối tiếp",
   },
 ];
@@ -69,7 +70,8 @@ export const LITTLE_WORLD_ITEMS: LittleWorldItem[] = [
   {
     title: "Morning Ritual",
     subtitle: "Một cốc nước dừa ở góc giường nhỏ",
-    description: "Bắt đầu ngày mới bằng chút mát lành, chậm rãi và đủ dịu để trái tim kịp thức dậy.",
+    description:
+      "Bắt đầu ngày mới bằng chút mát lành, chậm rãi và đủ dịu để trái tim kịp thức dậy.",
   },
   {
     title: "The Teacher's Heart",
@@ -79,12 +81,14 @@ export const LITTLE_WORLD_ITEMS: LittleWorldItem[] = [
   {
     title: "Soulmates",
     subtitle: "Người yêu và những người bạn",
-    description: "Những buổi hẹn hò cùng anh người yêu và những lần tụ tập quên lối về với bạn bè thân thiết.",
+    description:
+      "Những buổi hẹn hò cùng anh người yêu và những lần tụ tập quên lối về với bạn bè thân thiết.",
   },
   {
     title: "Aesthetic Art",
     subtitle: "3D cartoon và gam màu vibrant",
-    description: "Mình mê những hình khối dễ thương, màu pastel rực rỡ và cảm giác mộng mơ đầy ánh sáng.",
+    description:
+      "Mình mê những hình khối dễ thương, màu pastel rực rỡ và cảm giác mộng mơ đầy ánh sáng.",
   },
 ];
 

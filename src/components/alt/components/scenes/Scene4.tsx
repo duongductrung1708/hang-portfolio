@@ -4,20 +4,22 @@ import { DIGITAL_ALBUMS } from "../../data";
 export function Scene4() {
   return (
     <section className={`${s.sc} ${s.panelScene}`}>
-      <div className={s.panelHeader}>
-        <p className={s.storyEyebrow}>Digital Album</p>
-        <h2 className={s.storyTitle}>Trái tim của website</h2>
-      </div>
-      <div className={s.albumGrid}>
-        {DIGITAL_ALBUMS.map((album) => (
-          <article className={s.albumCard} key={album.tag}>
-            <div className={s.albumTag}>[{album.tag}]</div>
-            <h3>{album.title}</h3>
-            <p>{album.description}</p>
-            <div className={s.albumMoments}>
-              {album.moments.map((moment) => (
-                <span key={moment}>{moment}</span>
-              ))}
+      <div className={s.albumShelf}>
+        {DIGITAL_ALBUMS.map((album, index) => (
+          <article
+            className={`${s.albumBook} ${index === 0 ? s.albumBookPink : index === 1 ? s.albumBookMint : s.albumBookSun}`}
+            key={album.tag}
+          >
+            <div className={s.albumSpine} aria-hidden="true" />
+            <div className={s.albumCover}>
+              <div className={s.albumTag}>[{album.tag}]</div>
+              <h3 className={s.albumTitle}>{album.title}</h3>
+              <p className={s.albumDesc}>{album.description}</p>
+              <div className={s.albumMoments}>
+                {album.moments.map((moment) => (
+                  <span key={moment}>{moment}</span>
+                ))}
+              </div>
             </div>
           </article>
         ))}

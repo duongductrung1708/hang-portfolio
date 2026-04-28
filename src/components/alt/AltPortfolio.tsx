@@ -146,6 +146,12 @@ export function AltPortfolio() {
     return () => obs.disconnect();
   }, []);
 
+  // When scenes are in view, fade out intro fixed overlay
+  useEffect(() => {
+    document.body.classList.toggle("alt-in-scenes", inScenes);
+    return () => document.body.classList.remove("alt-in-scenes");
+  }, [inScenes]);
+
   // Nav-only scene selection
   const [scene, setScene] = useState(0);
   const go = useCallback((i: number) => {

@@ -388,6 +388,19 @@
   height: 100vh;
   overflow: hidden;
 }
+.sticky,
+.gather {
+  transition: opacity 420ms ease;
+}
+
+:global(body.alt-in-scenes) .sticky {
+  opacity: 0;
+  pointer-events: none;
+}
+:global(body.alt-in-scenes) .gather {
+  opacity: 0;
+  pointer-events: none;
+}
 .bigWrap {
   position: absolute;
   left: 50%;
@@ -856,7 +869,7 @@
   text-transform: uppercase;
   opacity: 0.68;
 }
- 
+
 .timelineBody p {
   margin: 10px 0 0;
 }
@@ -885,6 +898,237 @@
   border: 1px solid rgba(224, 120, 120, 0.18);
   font-size: 0.8rem;
 }
+
+/* ============== SCENE 2 — SCRAPBOOK TIMELINE ============== */
+.scrapWrap {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: block;
+}
+.scrapRight {
+  position: relative;
+  border-radius: 34px;
+  padding: 22px 18px 22px 22px;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+.scrapTimelineLine {
+  position: absolute;
+  left: 26px;
+  top: 18px;
+  bottom: 18px;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to bottom,
+    rgba(224, 120, 120, 0.08),
+    rgba(224, 120, 120, 0.34) 35%,
+    rgba(150, 220, 190, 0.22)
+  );
+  pointer-events: none;
+}
+.scrapScroll {
+  position: relative;
+  max-height: 72vh;
+  overflow-y: auto;
+  padding-right: 14px;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  scroll-snap-type: y proximity;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge legacy */
+}
+.scrapScroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* Chrome/Safari */
+}
+.scrapNote {
+  position: relative;
+  padding: 0;
+  scroll-snap-align: start;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+.scrapPaper {
+  position: relative;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 18px 18px 18px 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+.scrapPaper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.7), transparent 52%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(74, 21, 21, 0.035),
+      rgba(74, 21, 21, 0.035) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+  opacity: 0.55;
+  pointer-events: none;
+}
+.scrapPaper::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  width: 78px;
+  height: 24px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  transform: translateX(-50%) rotate(-7deg);
+  pointer-events: none;
+}
+.scrapSideRight .scrapPaper::before {
+  transform: translateX(-50%) rotate(7deg);
+}
+.scrapSideLeft {
+  transform: rotate(-0.5deg);
+}
+.scrapSideRight {
+  transform: rotate(0.6deg);
+}
+.scrapSideLeft {
+  grid-column: 1;
+  justify-self: stretch;
+}
+.scrapSideRight {
+  grid-column: 1;
+  justify-self: stretch;
+}
+.scrapNote {
+  max-width: none;
+  width: 100%;
+}
+.scrapDot {
+  position: absolute;
+  top: 28px;
+  left: -20px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 252, 249, 0.95);
+  border: 2px solid rgba(224, 120, 120, 0.45);
+  box-shadow: 0 14px 26px rgba(120, 86, 86, 0.16);
+}
+.scrapSideRight .scrapDot {
+  left: -20px;
+  right: auto;
+}
+.scrapPaper {
+  margin-left: 28px; /* make room for dot + line */
+}
+.scrapNoteA {
+  --paper-tint: rgba(255, 190, 120, 0.22);
+}
+.scrapNoteB {
+  --paper-tint: rgba(150, 220, 190, 0.2);
+}
+.scrapNoteA .scrapPaper,
+.scrapNoteB .scrapPaper {
+  background:
+    radial-gradient(circle at 22% 18%, var(--paper-tint), transparent 60%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.66));
+}
+.scrapNote:hover {
+  transform: translateY(-2px) rotate(-0.2deg);
+}
+.scrapNote:hover .scrapPaper {
+  border-color: rgba(224, 120, 120, 0.2);
+}
+.scrapContent {
+  min-width: 0;
+}
+.scrapTitle {
+  margin: 0;
+  font-size: 1.35rem;
+}
+.scrapIndex {
+  opacity: 0.55;
+  font-weight: 600;
+}
+.scrapText {
+  margin: 10px 0 0;
+  line-height: 1.75;
+  opacity: 0.9;
+}
+.toyWrap {
+  width: 92px;
+  height: 92px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.35)),
+    linear-gradient(135deg, rgba(255, 190, 120, 0.22), rgba(150, 220, 190, 0.18));
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  box-shadow:
+    0 18px 44px rgba(120, 86, 86, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  display: grid;
+  place-items: center;
+  transform: rotate(-2deg);
+}
+.toySvg {
+  width: 74px;
+  height: 74px;
+  filter: drop-shadow(0 10px 18px rgba(120, 86, 86, 0.18));
+}
+
+@media (max-width: 760px) {
+  .scrapRight {
+    padding: 18px 14px 18px 18px;
+  }
+  .scrapScroll {
+    max-height: none;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .scrapTimelineLine {
+    left: 20px;
+  }
+  .scrapNote {
+    transform: none;
+  }
+  .scrapPaper {
+    grid-template-columns: 84px minmax(0, 1fr);
+  }
+  .scrapSideLeft,
+  .scrapSideRight {
+    grid-column: 1;
+  }
+  .scrapDot {
+    left: 6px;
+    right: auto;
+  }
+  .scrapSideRight .scrapDot {
+    left: 6px;
+    right: auto;
+  }
+  .toyWrap {
+    width: 84px;
+    height: 84px;
+  }
+  .toySvg {
+    width: 68px;
+    height: 68px;
+  }
+}
 .worldGrid,
 .albumGrid {
   width: min(1180px, 100%);
@@ -892,6 +1136,107 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px;
+}
+
+/* ============== SCENE 3 — TOY GRID (FAKE 3D) ============== */
+.toyGrid {
+  width: min(1180px, 100%);
+  margin: 24px auto 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.toyCard {
+  border-radius: 34px;
+  padding: 22px 22px 24px;
+  border: 1px solid rgba(74, 21, 21, 0.1);
+  box-shadow:
+    0 28px 80px rgba(120, 86, 86, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+  transform-style: preserve-3d;
+}
+.toyCard:hover {
+  transform: translateY(-3px) rotateX(1deg) rotateY(-2deg);
+  box-shadow:
+    0 38px 110px rgba(120, 86, 86, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  border-color: rgba(224, 120, 120, 0.22);
+}
+.toyCardWarm {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 190, 120, 0.24), transparent 60%),
+    radial-gradient(circle at 85% 70%, rgba(255, 140, 170, 0.18), transparent 60%),
+    rgba(255, 252, 249, 0.88);
+}
+.toyCardMint {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(150, 220, 190, 0.22), transparent 60%),
+    radial-gradient(circle at 88% 70%, rgba(185, 165, 245, 0.14), transparent 60%),
+    rgba(255, 252, 249, 0.88);
+}
+.toyTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.toyBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 16px 34px rgba(120, 86, 86, 0.12);
+}
+.toyIcon {
+  width: 86px;
+  height: 86px;
+  border-radius: 26px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.4)),
+    linear-gradient(135deg, rgba(255, 190, 120, 0.18), rgba(150, 220, 190, 0.16));
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  box-shadow:
+    0 18px 44px rgba(120, 86, 86, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transform: rotate(2deg);
+}
+.toyTitle {
+  margin: 0;
+  font-size: 1.55rem;
+}
+.toySubtitle {
+  margin: 10px 0 0;
+  font-size: 0.98rem;
+  opacity: 0.75;
+}
+.toyDesc {
+  margin: 12px 0 0;
+  line-height: 1.75;
+}
+
+@media (max-width: 760px) {
+  .toyGrid {
+    grid-template-columns: 1fr;
+  }
+  .toyIcon {
+    width: 78px;
+    height: 78px;
+  }
 }
 .worldCard,
 .albumCard {
@@ -929,6 +1274,90 @@
   background: rgba(255, 255, 255, 0.7);
   font-size: 0.82rem;
 }
+
+/* ============== SCENE 4 — ALBUM BOOKS (FAKE 3D) ============== */
+.albumShelf {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+.albumBook {
+  position: relative;
+  border-radius: 28px;
+  padding-left: 18px;
+  transform-style: preserve-3d;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+.albumBook:hover {
+  transform: translateY(-3px) rotateY(-6deg);
+}
+.albumSpine {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 18px;
+  border-radius: 18px 0 0 18px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.25));
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  box-shadow:
+    10px 0 18px rgba(120, 86, 86, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+.albumCover {
+  height: 100%;
+  border-radius: 28px;
+  padding: 24px;
+  border: 1px solid rgba(74, 21, 21, 0.1);
+  box-shadow:
+    0 28px 80px rgba(120, 86, 86, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+.albumCover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.65), transparent 45%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+.albumTitle {
+  margin: 0;
+  font-size: 1.55rem;
+}
+.albumDesc {
+  margin: 12px 0 0;
+  line-height: 1.75;
+}
+.albumBookPink .albumCover {
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 140, 170, 0.22), transparent 60%),
+    rgba(255, 252, 249, 0.88);
+}
+.albumBookMint .albumCover {
+  background:
+    radial-gradient(circle at 20% 15%, rgba(150, 220, 190, 0.22), transparent 60%),
+    rgba(255, 252, 249, 0.88);
+}
+.albumBookSun .albumCover {
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 190, 120, 0.24), transparent 60%),
+    rgba(255, 252, 249, 0.88);
+}
+
+@media (max-width: 900px) {
+  .albumShelf {
+    grid-template-columns: 1fr;
+  }
+}
 .panelHeaderNarrow {
   max-width: 900px;
 }
@@ -944,6 +1373,84 @@
 .bioCard p:last-child {
   margin-bottom: 0;
 }
+
+/* ============== SCENE 5 — LETTER PAPER ============== */
+.letterWrap {
+  position: relative;
+  width: min(900px, 100%);
+  margin: 0 auto;
+  border-radius: 36px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 20% 12%, rgba(255, 190, 120, 0.22), transparent 55%),
+    radial-gradient(circle at 82% 70%, rgba(150, 220, 190, 0.2), transparent 60%),
+    rgba(255, 252, 249, 0.78);
+  border: 1px solid rgba(74, 21, 21, 0.1);
+  box-shadow: 0 28px 90px rgba(120, 86, 86, 0.16);
+  backdrop-filter: blur(10px);
+}
+.letterPaper {
+  border-radius: 30px;
+  padding: 26px 26px 24px;
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.62)),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(224, 120, 120, 0.08),
+      rgba(224, 120, 120, 0.08) 1px,
+      transparent 1px,
+      transparent 26px
+    );
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  box-shadow:
+    0 18px 50px rgba(120, 86, 86, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.letterPaper p {
+  margin: 0 0 16px;
+  line-height: 1.85;
+}
+.letterPaper p:last-child {
+  margin-bottom: 0;
+}
+.letterPin {
+  position: absolute;
+  top: 12px;
+  left: 24px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 140, 170, 0.85);
+  border: 1px solid rgba(74, 21, 21, 0.18);
+  box-shadow:
+    0 14px 30px rgba(120, 86, 86, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.letterPin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+}
+.letterStamp {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px dashed rgba(74, 21, 21, 0.18);
+  transform: rotate(8deg);
+  box-shadow: 0 18px 44px rgba(120, 86, 86, 0.16);
+}
 .footerScene {
   min-height: 72vh;
   display: grid;
@@ -951,6 +1458,64 @@
   text-align: center;
   border-radius: 38px;
   padding: 40px 28px;
+}
+
+/* ============== SCENE 6 — SKY / STARDUST ============== */
+.skyWrap {
+  position: relative;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  border-radius: 44px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 25% 18%, rgba(185, 165, 245, 0.22), transparent 56%),
+    radial-gradient(circle at 70% 70%, rgba(150, 220, 190, 0.18), transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(255, 190, 120, 0.16), transparent 55%),
+    linear-gradient(to bottom, rgba(255, 252, 249, 0.72), rgba(255, 252, 249, 0.58));
+  border: 1px solid rgba(74, 21, 21, 0.1);
+  box-shadow: 0 30px 110px rgba(120, 86, 86, 0.16);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+.skyStars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
+.starSvg {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  filter: drop-shadow(0 14px 26px rgba(120, 86, 86, 0.14));
+  opacity: 0.92;
+}
+.skyStars .starSvg:nth-child(1) {
+  top: 18px;
+  left: 26px;
+  transform: rotate(-10deg);
+}
+.skyStars .starSvg:nth-child(2) {
+  top: 34px;
+  right: 34px;
+  transform: rotate(14deg) scale(0.92);
+  opacity: 0.82;
+}
+.skyStars .starSvg:nth-child(3) {
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-6deg) scale(0.8);
+  opacity: 0.65;
+}
+.skyWrap .footerScene {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  box-shadow:
+    0 22px 70px rgba(120, 86, 86, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
 }
 .footerMessage {
   max-width: 34ch;
