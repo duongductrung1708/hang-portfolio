@@ -128,8 +128,18 @@ export function AltPortfolio() {
   }, [dismissMotion, introDismissed]);
 
   // Reveal the gathering lines progressively as the user scrolls down.
-  const showLine1 = p >= 0.12;
-  const showLine2 = p >= 0.22;
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mm = window.matchMedia?.("(max-width: 760px) and (hover: none) and (pointer: coarse)");
+    if (!mm) return;
+    const onChange = () => setIsMobile(mm.matches);
+    onChange();
+    mm.addEventListener?.("change", onChange);
+    return () => mm.removeEventListener?.("change", onChange);
+  }, []);
+
+  const showLine1 = isMobile ? p >= 0.02 : p >= 0.12;
+  const showLine2 = isMobile ? p >= 0.05 : p >= 0.22;
 
   // Keep clouds consistently visible while scrolling
   const cloudOp = 0.85;
@@ -156,6 +166,32 @@ export function AltPortfolio() {
   const [scene, setScene] = useState(0);
   const go = useCallback((i: number) => {
     setScene(Math.max(0, Math.min(SCENES.length - 1, i)));
+  }, []);
+
+  // Mobile: update scene index by scroll position (stacked scenes)
+  useEffect(() => {
+    const mm = window.matchMedia?.("(max-width: 760px) and (hover: none) and (pointer: coarse)");
+    if (!mm?.matches) return;
+    const root = scenesRef.current;
+    if (!root) return;
+
+    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-scene-index]"));
+    if (!slides.length) return;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0));
+        const best = visible[0];
+        const idx = best?.target ? Number((best.target as HTMLElement).dataset.sceneIndex) : NaN;
+        if (!Number.isNaN(idx)) setScene(idx);
+      },
+      { threshold: [0.35, 0.5, 0.65] },
+    );
+
+    slides.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
   }, []);
 
   // Overlays
@@ -231,7 +267,7 @@ export function AltPortfolio() {
       <section ref={scenesRef} className={s.sceneSection}>
         <div className={s.hscroll}>
           <div className={s.hstage} style={{ transform: `translateX(${-scene * 100}vw)` }}>
-            <div className={s.scSlide}>
+            <div className={s.scSlide} data-scene-index={0}>
               <div className={s.desktopOnly}>
                 <Scene1 />
               </div>
@@ -240,7 +276,7 @@ export function AltPortfolio() {
               </div>
             </div>
 
-            <div className={s.scSlide}>
+            <div className={s.scSlide} data-scene-index={1}>
               <div className={s.desktopOnly}>
                 <Scene2 />
               </div>
@@ -249,7 +285,7 @@ export function AltPortfolio() {
               </div>
             </div>
 
-            <div className={s.scSlide}>
+            <div className={s.scSlide} data-scene-index={2}>
               <div className={s.desktopOnly}>
                 <Scene3 onOpenDoor={() => go(3)} />
               </div>
@@ -258,7 +294,7 @@ export function AltPortfolio() {
               </div>
             </div>
 
-            <div className={s.scSlide}>
+            <div className={s.scSlide} data-scene-index={3}>
               <div className={s.desktopOnly}>
                 <Scene4 />
               </div>
@@ -267,7 +303,7 @@ export function AltPortfolio() {
               </div>
             </div>
 
-            <div className={s.scSlide}>
+            <div className={s.scSlide} data-scene-index={4}>
               <div className={s.desktopOnly}>
                 <Scene5 />
               </div>
@@ -276,7 +312,7 @@ export function AltPortfolio() {
               </div>
             </div>
 
-            <div className={s.scSlide}>
+            <div className={s.scSlide} data-scene-index={5}>
               <div className={s.desktopOnly}>
                 <Scene6 />
               </div>

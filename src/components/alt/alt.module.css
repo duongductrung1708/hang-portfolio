@@ -342,6 +342,12 @@
   max-width: 160px;
 }
 
+@media (max-width: 760px) {
+  .nowPlay {
+    display: none;
+  }
+}
+
 /* ============== WEBBY ============== */
 .webby {
   position: fixed;
@@ -393,13 +399,50 @@
   transition: opacity 420ms ease;
 }
 
-:global(body.alt-in-scenes) .sticky {
-  opacity: 0;
-  pointer-events: none;
+@media (min-width: 761px) {
+  :global(body.alt-in-scenes) .sticky {
+    opacity: 0;
+    pointer-events: none;
+  }
+  :global(body.alt-in-scenes) .gather {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
-:global(body.alt-in-scenes) .gather {
-  opacity: 0;
-  pointer-events: none;
+
+@media (max-width: 760px) {
+  /* Mobile: intro scrolls naturally with the page */
+  .intro {
+    height: auto;
+    min-height: 100dvh;
+  }
+  .sticky {
+    position: relative;
+    min-height: 100dvh;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: calc(clamp(56px, 7.2vw, 64px) + env(safe-area-inset-top, 0px) + 18px) 18px 24px;
+  }
+  .bigWrap {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    margin: 0 auto;
+    transition: opacity 520ms ease;
+  }
+  .gather {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    margin: 18px auto 0;
+    padding: 0 18px;
+  }
+
 }
 .bigWrap {
   position: absolute;
@@ -616,38 +659,199 @@
   max-height: 100vh;
   aspect-ratio: 16 / 9;
 }
-.sc1Wrap {
+
+/* ============== SCENE 1 — BUILT WITH ELEMENTS (NO IMAGE) ============== */
+.sc1Stage {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.75), rgba(237, 232, 223, 1));
 }
-.sc1Img {
+.sc1Backdrop {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  user-select: none;
-  -webkit-user-drag: none;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 190, 120, 0.18), transparent 55%),
+    radial-gradient(circle at 80% 30%, rgba(150, 220, 190, 0.16), transparent 55%),
+    radial-gradient(circle at 60% 80%, rgba(255, 140, 170, 0.14), transparent 60%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(74, 21, 21, 0.02),
+      rgba(74, 21, 21, 0.02) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  opacity: 0.9;
 }
-/* Scene 1 overlays (tuned for scene1.png) */
+.sc1Desk {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -18%;
+  height: 44%;
+  background: linear-gradient(to bottom, rgba(180, 120, 105, 0.22), rgba(120, 68, 68, 0.14));
+  border-top: 1px solid rgba(74, 21, 21, 0.08);
+  border-radius: 999px 999px 0 0;
+  filter: blur(0.2px);
+}
+
+.sc1Keyboard {
+  position: absolute;
+  left: 34%;
+  bottom: 12%;
+  width: clamp(320px, 42vw, 520px);
+  height: clamp(74px, 9vw, 98px);
+  border-radius: 22px;
+  background: linear-gradient(to bottom, rgba(74, 21, 21, 0.08), rgba(255, 255, 255, 0.55));
+  border: 1px solid rgba(74, 21, 21, 0.12);
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.sc1Keyboard::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(74, 21, 21, 0.06);
+}
+.sc1KeyboardKeys {
+  position: absolute;
+  inset: 14px 16px;
+  border-radius: 12px;
+  background:
+    repeating-linear-gradient(
+      to right,
+      rgba(74, 21, 21, 0.08) 0,
+      rgba(74, 21, 21, 0.08) 1px,
+      transparent 1px,
+      transparent 22px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(74, 21, 21, 0.06) 0,
+      rgba(74, 21, 21, 0.06) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+  opacity: 0.35;
+}
+
+.sc1Mouse {
+  position: absolute;
+  left: calc(34% + clamp(320px, 42vw, 520px) + 18px);
+  bottom: 12.5%;
+  width: clamp(54px, 6.6vw, 74px);
+  height: clamp(78px, 9.2vw, 104px);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.65), transparent 55%),
+    linear-gradient(to bottom, rgba(74, 21, 21, 0.06), rgba(255, 255, 255, 0.6));
+  border: 1px solid rgba(74, 21, 21, 0.12);
+  z-index: 1;
+  pointer-events: none;
+}
+.sc1Mouse::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  width: 1px;
+  height: 46%;
+  transform: translateX(-50%);
+  background: rgba(74, 21, 21, 0.1);
+}
+.sc1MouseWheel {
+  position: absolute;
+  left: 50%;
+  top: 16%;
+  width: 10px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: rgba(74, 21, 21, 0.18);
+  border: 1px solid rgba(74, 21, 21, 0.12);
+  opacity: 0.8;
+}
+
 .sc1Clock {
   position: absolute;
+  left: 18%;
+  top: 18%;
+  width: clamp(180px, 24vw, 280px);
+  height: clamp(64px, 8.5vw, 88px);
   z-index: 2;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.62), transparent 55%),
+    linear-gradient(to bottom, rgba(210, 160, 140, 0.34), rgba(255, 255, 255, 0.5));
+  border: 1px solid rgba(74, 21, 21, 0.12);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   color: var(--brown);
   text-align: center;
   pointer-events: none;
+  isolation: isolate;
+}
+.sc1Clock::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 24px;
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  background: rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+.sc1ClockFace {
+  position: relative;
+  width: calc(100% - 26px);
+  height: calc(100% - 18px);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.38));
+  border: 1px solid rgba(74, 21, 21, 0.08);
+}
+.sc1ClockGlass {
+  position: absolute;
+  inset: 10px;
+  border-radius: 22px;
+  background: radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.65), transparent 55%);
+  opacity: 0.55;
+  z-index: 2;
+  pointer-events: none;
+}
+.sc1ClockKnob,
+.sc1ClockKnob2 {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 26px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(255, 190, 120, 0.32), rgba(74, 21, 21, 0.08));
+  border: 1px solid rgba(74, 21, 21, 0.12);
+  z-index: 3;
+}
+.sc1ClockKnob {
+  left: -8px;
+}
+.sc1ClockKnob2 {
+  right: -8px;
 }
 .sc1ClockTime {
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.12em;
-  font-size: clamp(0.85rem, 1.2vw, 1.15rem);
+  letter-spacing: 0.14em;
+  font-size: clamp(0.95rem, 1.35vw, 1.25rem);
   line-height: 1;
+  z-index: 4;
 }
 .sc1ClockSub {
   margin-top: 2px;
@@ -655,19 +859,44 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   opacity: 0.7;
+  z-index: 4;
 }
 .sc1Todo {
   position: absolute;
+  right: 12%;
+  bottom: 26%;
+  width: clamp(170px, 18vw, 230px);
+  height: clamp(180px, 20vw, 240px);
   z-index: 2;
-  padding: 6px 8px;
   color: var(--brown);
   pointer-events: none;
 }
-.sc1TodoTitle {
-  font-size: clamp(0.5rem, 0.75vw, 0.64rem);
+.sc1TodoClip {
+  position: absolute;
+  left: 50%;
+  top: -14px;
+  width: 72px;
+  height: 28px;
+  transform: translateX(-50%);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(74, 21, 21, 0.12);
+}
+.sc1TodoPaper {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 18px 18px 16px;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 190, 120, 0.18), transparent 55%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.6));
+  border: 1px solid rgba(74, 21, 21, 0.1);
+}
+.sc1TodoHeader {
+  font-size: clamp(0.7rem, 1vw, 0.88rem);
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 .sc1TodoList {
   margin: 6px 0 0;
@@ -678,12 +907,43 @@
 .sc1TodoList li {
   margin: 2px 0;
 }
-/* Monitor screen overlay (tuned for scene1.png) */
+.sc1Monitor {
+  position: absolute;
+  left: 36%;
+  top: 30%;
+  width: clamp(320px, 32vw, 460px);
+  height: clamp(240px, 26vw, 330px);
+  z-index: 2;
+  pointer-events: none;
+}
+.sc1MonitorBezel {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: linear-gradient(to bottom, rgba(74, 21, 21, 0.12), rgba(255, 255, 255, 0.4));
+  border: 1px solid rgba(74, 21, 21, 0.14);
+}
+.sc1MonitorBase {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -10%;
+  height: 18%;
+  border-radius: 999px;
+  background: rgba(74, 21, 21, 0.08);
+  border: 1px solid rgba(74, 21, 21, 0.1);
+}
 .monitorScreen {
   position: absolute;
-  border-radius: 10px;
+  left: 6%;
+  top: 7%;
+  width: 88%;
+  height: 76%;
+  border-radius: 20px;
   overflow: hidden;
-  z-index: 2;
+  background: rgba(255, 252, 249, 0.72);
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  z-index: 1;
 }
 .monitorInner {
   height: 100%;
@@ -693,6 +953,78 @@
   justify-content: flex-start;
   gap: 8px;
   color: var(--brown);
+}
+
+.sc1Cactus {
+  position: absolute;
+  left: 14%;
+  bottom: 18%;
+  width: clamp(160px, 18vw, 220px);
+  height: clamp(180px, 22vw, 260px);
+  z-index: 2;
+  pointer-events: none;
+}
+.sc1CactusPot {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 0;
+  height: 42%;
+  border-radius: 28px;
+  background: linear-gradient(to bottom, rgba(255, 190, 120, 0.18), rgba(120, 68, 68, 0.12));
+  border: 1px solid rgba(74, 21, 21, 0.1);
+}
+.sc1CactusBody {
+  position: absolute;
+  left: 28%;
+  bottom: 26%;
+  width: 44%;
+  height: 54%;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(150, 220, 190, 0.32), rgba(120, 190, 160, 0.22));
+  border: 1px solid rgba(74, 21, 21, 0.08);
+}
+.sc1CactusArm {
+  position: absolute;
+  left: 60%;
+  bottom: 42%;
+  width: 22%;
+  height: 26%;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(150, 220, 190, 0.32), rgba(120, 190, 160, 0.22));
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  transform: rotate(-16deg);
+}
+.sc1CactusFace {
+  position: absolute;
+  left: 40%;
+  bottom: 52%;
+  width: 28%;
+  height: 20%;
+}
+.sc1CactusFace span {
+  position: absolute;
+  top: 34%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(74, 21, 21, 0.55);
+}
+.sc1CactusFace span:first-child {
+  left: 10%;
+}
+.sc1CactusFace span:nth-child(2) {
+  right: 10%;
+}
+.sc1CactusFace i {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 18px;
+  height: 8px;
+  transform: translateX(-50%);
+  border-bottom: 3px solid rgba(224, 120, 120, 0.65);
+  border-radius: 0 0 999px 999px;
 }
 .monitorEyebrow {
   margin: 0;
@@ -1666,38 +1998,43 @@
 }
 @media (max-width: 760px) {
   .desktopOnly {
-    display: none;
+    display: none !important;
   }
   .mobileOnly {
-    display: block;
+    display: block !important;
   }
 
+  /* Narrow screens may still be desktop; don't disable slider here. */
+}
+
+@media (max-width: 760px) and (hover: none) and (pointer: coarse) {
   /*
-   * Mobile scrolling:
-   * Scrolling inside elements that are descendants of a transformed parent
-   * (the horizontal stage) can be unreliable on mobile browsers.
-   * So we scroll on .hscroll itself and let slides grow vertically.
+   * Mobile layout:
+   * Use natural page scrolling (Intro -> Scene1 -> Scene6).
+   * Disable the horizontal slider and stack scenes vertically.
    */
   .hscroll {
-    overflow: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: auto;
+    height: auto;
+    overflow: visible;
   }
   .hstage {
-    height: 100%;
+    flex-direction: column;
+    height: auto;
+    transform: none !important;
+    transition: none;
   }
   .scSlide {
-    height: 100%;
-    overflow: hidden;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    display: block;
     align-items: stretch;
     justify-content: flex-start;
   }
   .sc {
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: auto;
+    width: 100%;
+    height: auto;
+    overflow: visible;
     align-items: stretch;
     justify-content: flex-start;
   }
@@ -1717,6 +2054,59 @@
     padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
     align-items: stretch;
     justify-content: flex-start;
+  }
+
+  /* Scene 1 mobile layout */
+  .sc1Stage {
+    min-height: 100dvh;
+  }
+  .sc1Desk {
+    bottom: -26%;
+    height: 52%;
+  }
+  .sc1Clock {
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);
+    width: min(86vw, 320px);
+    height: 84px;
+  }
+  .sc1Monitor {
+    left: 50%;
+    top: 28%;
+    transform: translateX(-50%);
+    width: min(92vw, 420px);
+    height: 300px;
+  }
+  .monitorInner {
+    padding: 14px;
+  }
+  .monitorTitle {
+    font-size: 1.6rem;
+  }
+  .sc1Keyboard {
+    left: 50%;
+    bottom: 14%;
+    transform: translateX(-50%);
+    width: min(92vw, 520px);
+    height: 84px;
+    display: none;
+  }
+  .sc1Mouse {
+    display: none;
+  }
+  .sc1Cactus {
+    left: 6%;
+    bottom: 12%;
+    width: 160px;
+    height: 190px;
+    opacity: 0.92;
+  }
+  .sc1Todo {
+    right: 6%;
+    bottom: 12%;
+    width: 190px;
+    height: 220px;
   }
 
   /* Scenes (mobile): remove box shadows */
