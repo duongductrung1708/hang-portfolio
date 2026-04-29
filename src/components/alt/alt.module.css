@@ -2029,6 +2029,13 @@
 
 @media (max-width: 760px) and (hover: none) and (pointer: coarse) {
   /* Mobile with nav slider: each scene scrolls vertically when content is tall */
+  .mobileOnly {
+    height: 100%;
+  }
+  .scSlide > .mobileOnly {
+    height: 100%;
+  }
+
   .hscroll {
     overflow: hidden;
   }
