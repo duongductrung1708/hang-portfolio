@@ -2,6 +2,7 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
+import hhLogo from "@/assets/hh_logo.png?url";
 
 function NotFoundComponent() {
   return (
@@ -30,17 +31,35 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Hàn Hằng | Portfolio đời thường của cô giáo" },
+      {
+        name: "description",
+        content:
+          "Portfolio cá nhân của Hàn Hằng - câu chuyện đời thường của một cô giáo qua 6 khung cảnh hoài niệm, vibrant và giàu cảm xúc.",
+      },
+      { name: "author", content: "Hàn Hằng" },
+      { name: "robots", content: "index, follow" },
+      { name: "theme-color", content: "#ede8df" },
+      { property: "og:title", content: "Hàn Hằng | Portfolio đời thường của cô giáo" },
+      {
+        property: "og:description",
+        content:
+          "Khám phá hành trình, thói quen và những mảnh ghép yêu thương trong portfolio tương tác của Hàn Hằng.",
+      },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:locale", content: "vi_VN" },
+      { property: "og:site_name", content: "Hàn Hằng Portfolio" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Hàn Hằng | Portfolio đời thường của cô giáo" },
+      {
+        name: "twitter:description",
+        content: "Portfolio tương tác kể về cuộc sống đời thường của một cô giáo trẻ.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: hhLogo },
+      { rel: "apple-touch-icon", href: hhLogo },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -56,7 +75,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <head>
         <HeadContent />
       </head>
