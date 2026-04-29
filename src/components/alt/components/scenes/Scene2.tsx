@@ -96,7 +96,7 @@ function StarIcon() {
 
 export function Scene2() {
   return (
-    <section className={`${s.sc} ${s.storyScene} ${s.timelineScene}`}>
+    <section className={`${s.sc} ${s.storyScene} ${s.timelineScene} ${s.scene2Scene}`}>
       <div className={s.scrapWrap}>
         <div className={s.scrapRight}>
           <div className={s.scrapTimelineLine} aria-hidden="true" />

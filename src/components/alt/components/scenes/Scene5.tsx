@@ -3,7 +3,7 @@ import { BIO_TEXT } from "../../data";
 
 export function Scene5() {
   return (
-    <section className={`${s.sc} ${s.panelScene}`}>
+    <section className={`${s.sc} ${s.panelScene} ${s.scene5Scene}`}>
       <div className={s.letterWrap}>
         <div className={s.letterPin} aria-hidden="true" />
         <div className={s.letterStamp} aria-hidden="true">

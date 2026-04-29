@@ -168,32 +168,6 @@ export function AltPortfolio() {
     setScene(Math.max(0, Math.min(SCENES.length - 1, i)));
   }, []);
 
-  // Mobile: update scene index by scroll position (stacked scenes)
-  useEffect(() => {
-    const mm = window.matchMedia?.("(max-width: 760px) and (hover: none) and (pointer: coarse)");
-    if (!mm?.matches) return;
-    const root = scenesRef.current;
-    if (!root) return;
-
-    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-scene-index]"));
-    if (!slides.length) return;
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0));
-        const best = visible[0];
-        const idx = best?.target ? Number((best.target as HTMLElement).dataset.sceneIndex) : NaN;
-        if (!Number.isNaN(idx)) setScene(idx);
-      },
-      { threshold: [0.35, 0.5, 0.65] },
-    );
-
-    slides.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
   // Overlays
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);

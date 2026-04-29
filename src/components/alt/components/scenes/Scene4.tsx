@@ -3,7 +3,7 @@ import { DIGITAL_ALBUMS } from "../../data";
 
 export function Scene4() {
   return (
-    <section className={`${s.sc} ${s.panelScene}`}>
+    <section className={`${s.sc} ${s.panelScene} ${s.scene4Scene}`}>
       <div className={s.albumShelf}>
         {DIGITAL_ALBUMS.map((album, index) => (
           <article

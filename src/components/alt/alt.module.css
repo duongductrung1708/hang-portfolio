@@ -1053,6 +1053,26 @@
   position: relative;
   z-index: 6; /* above drifting cloud layer */
 }
+.scene2Scene {
+  min-height: 96vh;
+  min-height: 96dvh;
+}
+.scene3Scene {
+  min-height: 90vh;
+  min-height: 90dvh;
+}
+.scene4Scene {
+  min-height: 92vh;
+  min-height: 92dvh;
+}
+.scene5Scene {
+  min-height: 88vh;
+  min-height: 88dvh;
+}
+.scene6Scene {
+  min-height: 84vh;
+  min-height: 84dvh;
+}
 .storyShell,
 .panelHeader,
 .bioCard,
@@ -2008,35 +2028,33 @@
 }
 
 @media (max-width: 760px) and (hover: none) and (pointer: coarse) {
-  /*
-   * Mobile layout:
-   * Use natural page scrolling (Intro -> Scene1 -> Scene6).
-   * Disable the horizontal slider and stack scenes vertically.
-   */
+  /* Mobile with nav slider: each scene scrolls vertically when content is tall */
   .hscroll {
-    height: auto;
-    overflow: visible;
+    overflow: hidden;
   }
   .hstage {
-    flex-direction: column;
-    height: auto;
-    transform: none !important;
-    transition: none;
+    height: 100%;
   }
   .scSlide {
-    width: 100%;
-    height: auto;
-    overflow: visible;
-    display: block;
+    height: 100%;
+    overflow: hidden;
+  }
+  .sc {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
     align-items: stretch;
     justify-content: flex-start;
   }
-  .sc {
-    width: 100%;
-    height: auto;
-    overflow: visible;
-    align-items: stretch;
-    justify-content: flex-start;
+
+  .scene2Scene,
+  .scene3Scene,
+  .scene4Scene,
+  .scene5Scene,
+  .scene6Scene {
+    min-height: auto;
   }
 
   /* Scene 1 needs a viewport-height canvas for its cover image */

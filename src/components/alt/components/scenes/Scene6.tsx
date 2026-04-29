@@ -21,7 +21,7 @@ function Starfield() {
 
 export function Scene6() {
   return (
-    <section className={`${s.sc} ${s.panelScene}`}>
+    <section className={`${s.sc} ${s.panelScene} ${s.scene6Scene}`}>
       <div className={s.skyWrap}>
         <div className={s.skyStars} aria-hidden="true">
           <Starfield />

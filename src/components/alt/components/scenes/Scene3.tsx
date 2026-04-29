@@ -88,7 +88,7 @@ export function Scene3(_props: Scene3Props = {}) {
   const icons = [<BookIcon />, <HeartIcon />, <PaletteIcon />, <SunIcon />];
 
   return (
-    <section className={`${s.sc} ${s.panelScene}`}>
+    <section className={`${s.sc} ${s.panelScene} ${s.scene3Scene}`}>
       <div className={s.toyGrid}>
         {LITTLE_WORLD_ITEMS.map((item, index) => (
           <article
