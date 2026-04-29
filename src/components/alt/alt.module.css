@@ -955,7 +955,7 @@
   color: var(--brown);
 }
 
-.sc1Cactus {
+.sc1Cat {
   position: absolute;
   left: 14%;
   bottom: 18%;
@@ -964,67 +964,140 @@
   z-index: 2;
   pointer-events: none;
 }
-.sc1CactusPot {
+.sc1CatBody {
   position: absolute;
-  left: 12%;
-  right: 12%;
+  left: 18%;
+  right: 18%;
   bottom: 0;
-  height: 42%;
-  border-radius: 28px;
-  background: linear-gradient(to bottom, rgba(255, 190, 120, 0.18), rgba(120, 68, 68, 0.12));
+  height: 44%;
+  border-radius: 999px 999px 32px 32px;
+  background:
+    radial-gradient(circle at 50% 82%, rgba(255, 245, 235, 0.9), transparent 38%),
+    linear-gradient(to bottom, rgba(255, 232, 214, 0.98), rgba(255, 206, 183, 0.86));
   border: 1px solid rgba(74, 21, 21, 0.1);
 }
-.sc1CactusBody {
+.sc1CatBody::before,
+.sc1CatBody::after {
+  content: "";
   position: absolute;
-  left: 28%;
-  bottom: 26%;
-  width: 44%;
-  height: 54%;
+  bottom: 8%;
+  width: 24%;
+  height: 24%;
   border-radius: 999px;
-  background: linear-gradient(to bottom, rgba(150, 220, 190, 0.32), rgba(120, 190, 160, 0.22));
+  background: rgba(255, 240, 228, 0.88);
   border: 1px solid rgba(74, 21, 21, 0.08);
 }
-.sc1CactusArm {
+.sc1CatBody::before {
+  left: 20%;
+}
+.sc1CatBody::after {
+  right: 20%;
+}
+.sc1CatHead {
   position: absolute;
-  left: 60%;
-  bottom: 42%;
-  width: 22%;
-  height: 26%;
+  left: 21%;
+  bottom: 33%;
+  width: 58%;
+  height: 46%;
   border-radius: 999px;
-  background: linear-gradient(to bottom, rgba(150, 220, 190, 0.32), rgba(120, 190, 160, 0.22));
+  background:
+    radial-gradient(circle at 50% 22%, rgba(255, 255, 255, 0.62), transparent 48%),
+    linear-gradient(to bottom, rgba(255, 238, 222, 0.98), rgba(255, 210, 190, 0.84));
   border: 1px solid rgba(74, 21, 21, 0.08);
-  transform: rotate(-16deg);
 }
-.sc1CactusFace {
+.sc1CatEarLeft,
+.sc1CatEarRight {
   position: absolute;
-  left: 40%;
-  bottom: 52%;
-  width: 28%;
-  height: 20%;
+  top: -14%;
+  width: 24%;
+  height: 30%;
+  background: linear-gradient(to bottom, rgba(255, 230, 212, 0.98), rgba(255, 204, 184, 0.88));
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
-.sc1CactusFace span {
-  position: absolute;
-  top: 34%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(74, 21, 21, 0.55);
+.sc1CatEarLeft {
+  left: 11%;
 }
-.sc1CactusFace span:first-child {
-  left: 10%;
+.sc1CatEarRight {
+  right: 11%;
 }
-.sc1CactusFace span:nth-child(2) {
-  right: 10%;
-}
-.sc1CactusFace i {
+.sc1CatEarLeft::after,
+.sc1CatEarRight::after {
+  content: "";
   position: absolute;
   left: 50%;
-  top: 62%;
-  width: 18px;
-  height: 8px;
+  top: 24%;
+  width: 48%;
+  height: 58%;
   transform: translateX(-50%);
-  border-bottom: 3px solid rgba(224, 120, 120, 0.65);
+  background: rgba(255, 174, 176, 0.45);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.sc1CatTail {
+  position: absolute;
+  right: 7%;
+  bottom: 11%;
+  width: 40%;
+  height: 16%;
+  border-radius: 999px 999px 999px 70%;
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255, 224, 206, 0.92) 0 32%,
+      rgba(236, 176, 148, 0.75) 32% 40%,
+      rgba(255, 224, 206, 0.92) 40% 72%,
+      rgba(236, 176, 148, 0.75) 72% 80%,
+      rgba(255, 224, 206, 0.92) 80% 100%
+    );
+  border: 1px solid rgba(74, 21, 21, 0.08);
+  transform: rotate(-14deg);
+}
+.sc1CatFace {
+  position: absolute;
+  left: 35%;
+  bottom: 49%;
+  width: 32%;
+  height: 22%;
+}
+.sc1CatFace span {
+  position: absolute;
+  top: 32%;
+  width: 11px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(74, 21, 21, 0.55);
+}
+.sc1CatFace span:first-child {
+  left: 8%;
+}
+.sc1CatFace span:nth-child(2) {
+  right: 8%;
+}
+.sc1CatFace i {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 20px;
+  height: 10px;
+  transform: translateX(-50%);
+  border-bottom: 3px solid rgba(224, 120, 120, 0.72);
   border-radius: 0 0 999px 999px;
+}
+.sc1CatFace::before,
+.sc1CatFace::after {
+  content: "";
+  position: absolute;
+  top: 54%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 162, 171, 0.45);
+}
+.sc1CatFace::before {
+  left: -6%;
+}
+.sc1CatFace::after {
+  right: -6%;
 }
 .monitorEyebrow {
   margin: 0;
@@ -2120,7 +2193,7 @@
   .sc1Mouse {
     display: none;
   }
-  .sc1Cactus {
+  .sc1Cat {
     left: 6%;
     bottom: 12%;
     width: 160px;

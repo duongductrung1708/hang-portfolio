@@ -45,11 +45,14 @@ export function Scene1() {
           </div>
         </div>
 
-        <div className={s.sc1Cactus} aria-hidden="true">
-          <div className={s.sc1CactusPot} />
-          <div className={s.sc1CactusBody} />
-          <div className={s.sc1CactusArm} />
-          <div className={s.sc1CactusFace}>
+        <div className={s.sc1Cat} aria-hidden="true">
+          <div className={s.sc1CatTail} />
+          <div className={s.sc1CatBody} />
+          <div className={s.sc1CatHead}>
+            <div className={s.sc1CatEarLeft} />
+            <div className={s.sc1CatEarRight} />
+          </div>
+          <div className={s.sc1CatFace}>
             <span />
             <span />
             <i />
