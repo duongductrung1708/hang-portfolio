@@ -138,8 +138,17 @@ export function AltPortfolio() {
     return () => mm.removeEventListener?.("change", onChange);
   }, []);
 
-  const showLine1 = isMobile ? p >= 0.02 : p >= 0.12;
-  const showLine2 = isMobile ? p >= 0.05 : p >= 0.22;
+  const [mobileScrollY, setMobileScrollY] = useState(0);
+  useEffect(() => {
+    if (!isMobile) return;
+    const onScroll = () => setMobileScrollY(window.scrollY || 0);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isMobile]);
+
+  const showLine1 = isMobile ? mobileScrollY >= 12 : p >= 0.12;
+  const showLine2 = isMobile ? mobileScrollY >= 30 : p >= 0.22;
 
   // Keep clouds consistently visible while scrolling
   const cloudOp = 0.85;
